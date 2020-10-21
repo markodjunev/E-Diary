@@ -2,6 +2,7 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using EDiary.Data;
     using EDiary.Data.Common;
     using EDiary.Data.Common.Repositories;
@@ -9,6 +10,7 @@
     using EDiary.Data.Repositories;
     using EDiary.Data.Seeding;
     using EDiary.Services.Data;
+    using EDiary.Services.Data.Interfaces;
     using EDiary.Services.Mapping;
     using EDiary.Services.Messaging;
     using EDiary.Web.ViewModels;
@@ -59,6 +61,17 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
+
+            // Add Cloudinary account
+            Account account = new Account(
+                             this.configuration["Cloudinary:AppName"],
+                             this.configuration["Cloudinary:AppKey"],
+                             this.configuration["Cloudinary:AppSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
