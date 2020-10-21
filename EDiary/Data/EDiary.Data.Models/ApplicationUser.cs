@@ -5,18 +5,34 @@ namespace EDiary.Data.Models
     using System.Collections.Generic;
 
     using EDiary.Data.Common.Models;
-
+    using EDiary.Data.Models.Enums;
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
+        private static int counter = 0;
+
         public ApplicationUser()
         {
-            this.Id = Guid.NewGuid().ToString();
+            this.Id = (counter++).ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public DateTime? Birthday { get; set; }
+
+        public string ParentUserId { get; set; }
+
+        public virtual ApplicationUser ParentUser { get; set; }
+
+        public Class? Class { get; set; }
+
+        public TypeOfClass? TypeOfClass { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }
