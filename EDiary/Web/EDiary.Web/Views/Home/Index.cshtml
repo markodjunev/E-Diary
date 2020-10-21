@@ -1,9 +1,72 @@
 ﻿@using EDiary.Common
+@using EDiary.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<hr class="my-4">
+
+
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <div class="jumbotron bg-cover text-white" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(https://res.cloudinary.com/dzheivzqv/image/upload/v1603291468/EDiary/homeImage_fsv0tg.webp)">
+                <div class="container">
+                    <h1 class="display-4">Hello, @(this.User.Identity.Name)!</h1>
+                    <p class="lead">Enjoy your life and we wish you a good experience.</p>
+                    <hr class="my-4">
+                    <p>Explore the world with those you like.</p>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See all schools info.</a>
+                    }
+                    else if (this.User.IsInRole(GlobalConstants.PrincipalRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                    }
+                    else if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                    }
+                    else if (this.User.IsInRole(GlobalConstants.ParentRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                    }
+                    else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
+                    {
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <div class="jumbotron bg-cover text-white" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(https://res.cloudinary.com/dzheivzqv/image/upload/v1603291468/EDiary/homeImage_fsv0tg.webp)">
+                <div class="container">
+                    <h1 class="display-4">Join our community!</h1>
+                    <p class="lead">@GlobalConstants.SystemName is an application that helps you to follow your daily school life.</p>
+                    <hr class="my-4">
+                    <p><a asp-area="Identity" asp-page="/Account/Login">Login</a> if you have an account.</p>
+                    <p><a asp-area="Identity" asp-page="/Account/Register">Register</a> if you don't have an account.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
