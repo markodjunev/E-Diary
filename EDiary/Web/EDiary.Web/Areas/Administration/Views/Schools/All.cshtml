@@ -21,7 +21,7 @@
                     <img src="@school.ImageUrl" class="img-fluid" alt="Responsive image">
                     <h5 class="card-title">@school.City</h5>
                     <p class="card-text">@school.Address</p>
-                    <a href="#" class="btn btn-primary">Details</a>
+                    <a asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@school.Id" class="btn btn-primary">Details</a>
                 </div>
             </div>
         }

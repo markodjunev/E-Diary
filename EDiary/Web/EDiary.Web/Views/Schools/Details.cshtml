@@ -1,0 +1,48 @@
+﻿@using EDiary.Common
+@using EDiary.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@model EDiary.Web.ViewModels.Common.Schools.OutputViewModels.SchoolDetailsViewModel
+@{
+    ViewData["Title"] = $"{Model.Name}";
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <h1 class="text-center">@Model.Name</h1>
+}
+else
+{
+    <h1 class="text-center">My school</h1>
+}
+
+<hr class="my-4" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Name</h5>
+                    <span>@Model.City</span>
+                    <p class="card-text">@Model.Address</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><a href="#">Subjects</a></li>
+                    <li class="list-group-item"><a href="#">Students</a></li>
+                    <li class="list-group-item"><a href="#">Teachers</a></li>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <li class="list-group-item"><a href="#">Principal</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6 mt-lg-5">
+            <div>
+                <img src="https://res.cloudinary.com/dzheivzqv/image/upload/v1603399618/EDiary/schoolDetails_wujo2p.jpg" class="img-fluid" alt="@Model.Name" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -42,5 +42,12 @@
 
             return schools.To<T>().ToList();
         }
+
+        public T GetById<T>(int id)
+        {
+            var school = this.schoolsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
+
+            return school;
+        }
     }
 }

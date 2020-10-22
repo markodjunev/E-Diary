@@ -28,7 +28,7 @@
                     <p>Explore the world with those you like.</p>
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <a class="btn btn-primary btn-lg" href="#" role="button">See all schools info.</a>
+                        <a class="btn btn-primary btn-lg" asp-area="Administration" asp-controller="Schools" asp-action="All" role="button">See all schools info.</a>
                     }
                     else if (this.User.IsInRole(GlobalConstants.PrincipalRoleName))
                     {
