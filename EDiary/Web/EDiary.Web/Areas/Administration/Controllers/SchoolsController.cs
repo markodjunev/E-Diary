@@ -6,6 +6,7 @@
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Administration.Schools.InputModels;
+    using EDiary.Web.ViewModels.Administration.Schools.OutputViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,16 @@
             this.schoolsService = schoolsService;
             this.cloudinaryService = cloudinaryService;
             this.userManager = userManager;
+        }
+
+        public IActionResult All()
+        {
+            var schoolsViewModel = new AllSchoolsViewModel
+            {
+                Schools = this.schoolsService.GetAll<SchoolsViewModel>(),
+            };
+
+            return this.View(schoolsViewModel);
         }
 
         public IActionResult Create()

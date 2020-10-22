@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class SchoolsService : ISchoolsService
     {
@@ -32,6 +34,13 @@
             await this.schoolsRepository.SaveChangesAsync();
 
             return school.Id;
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            IQueryable<School> schools = this.schoolsRepository.All();
+
+            return schools.To<T>().ToList();
         }
     }
 }

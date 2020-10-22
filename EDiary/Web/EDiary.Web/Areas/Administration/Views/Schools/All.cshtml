@@ -1,0 +1,29 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Administration.Schools.OutputViewModels.AllSchoolsViewModel
+@{
+    ViewData["Title"] = "All schools";
+}
+
+<h1 class="text-center">All Schools in @GlobalConstants.SystemName</h1>
+
+<div class="row">
+
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-5">
+        @foreach (var school in Model.Schools)
+        {
+            <hr class="my-4">
+            <div class="card">
+                <h5 class="card-header">@school.Name</h5>
+                <div class="card-body">
+                    <img src="@school.ImageUrl" class="img-fluid" alt="Responsive image">
+                    <h5 class="card-title">@school.City</h5>
+                    <p class="card-text">@school.Address</p>
+                    <a href="#" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
