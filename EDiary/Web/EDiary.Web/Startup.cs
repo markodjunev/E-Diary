@@ -62,6 +62,7 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<ISchoolsService, SchoolsService>();
 
             // Add Cloudinary account
             Account account = new Account(

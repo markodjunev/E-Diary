@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Services\EDiary.Services.Mapping\EDiary.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Administration\Schools\OutputViewModels\" />
+  </ItemGroup>
+
 </Project>

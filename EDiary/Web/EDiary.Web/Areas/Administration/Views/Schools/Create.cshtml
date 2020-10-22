@@ -1,0 +1,56 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Administration.Schools.InputModels.SchoolCreateInputModel
+@{
+    ViewData["Title"] = "Add school";
+}
+
+<h1 class="text-center">Create a new School in @GlobalConstants.SystemName</h1>
+<hr class="my-4">
+
+<div class="row">
+
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+
+        <form class="w-30 mx-auto" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.Name" class="font-weight-bold"></label>
+                </div>
+                <textarea asp-for="@Model.Name" class="form-control" placeholder="Name..."></textarea>
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.Address" class="font-weight-bold"></label>
+                </div>
+                <textarea asp-for="@Model.Address" class="form-control" placeholder="Address..."></textarea>
+                <span asp-validation-for="@Model.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.City" class="font-weight-bold"></label>
+                </div>
+                <textarea asp-for="@Model.City" class="form-control" placeholder="City..."></textarea>
+                <span asp-validation-for="@Model.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.ImageUrl" class="font-weight-bold">Photo</label>
+                </div>
+                <input asp-for="@Model.ImageUrl" class="form-control-file" type="file" placeholder="Photo..." />
+                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+            </div>
+
+            <hr class="mt-3 hr-2" />
+
+            <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Add School</button>
+            </div>
+        </form>
+    </div>
+</div>
