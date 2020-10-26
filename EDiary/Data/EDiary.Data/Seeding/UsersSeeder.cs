@@ -24,8 +24,8 @@
 
             var adminUser = new ApplicationUser
             {
-                UserName = "admin",
                 Email = "admin@abv.bg",
+                UniqueCitizenshipNumber = 1000000000,
             };
 
             await SeedUserAsync(userManager, adminUser);

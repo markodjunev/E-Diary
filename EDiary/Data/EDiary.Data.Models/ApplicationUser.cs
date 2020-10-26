@@ -14,7 +14,8 @@ namespace EDiary.Data.Models
 
         public ApplicationUser()
         {
-            this.Id = (counter++).ToString();
+            this.Id = Guid.NewGuid().ToString();
+            this.UserName = (++counter).ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -25,6 +26,8 @@ namespace EDiary.Data.Models
         public string LastName { get; set; }
 
         public DateTime? Birthday { get; set; }
+
+        public int UniqueCitizenshipNumber { get; set; }
 
         public string ParentUserId { get; set; }
 
