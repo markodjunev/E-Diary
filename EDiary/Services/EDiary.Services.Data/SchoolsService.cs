@@ -49,5 +49,12 @@
 
             return school;
         }
+
+        public School GetSchool(int id)
+        {
+            var school = this.schoolsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            return school;
+        }
     }
 }

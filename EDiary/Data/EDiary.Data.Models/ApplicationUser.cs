@@ -10,12 +10,9 @@ namespace EDiary.Data.Models
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
-        private static int counter = 0;
-
         public ApplicationUser()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.UserName = (++counter).ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
@@ -27,7 +24,7 @@ namespace EDiary.Data.Models
 
         public DateTime? Birthday { get; set; }
 
-        public int UniqueCitizenshipNumber { get; set; }
+        public string UniqueCitizenshipNumber { get; set; }
 
         public string ParentUserId { get; set; }
 

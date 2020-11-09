@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Cloudinary.Core" Version="1.31.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -23,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\EDiary.Data.Models\EDiary.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\EDiary.Services.Mapping\EDiary.Services.Mapping.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Administration\Users\OutputViewModels\" />
   </ItemGroup>
 
 </Project>

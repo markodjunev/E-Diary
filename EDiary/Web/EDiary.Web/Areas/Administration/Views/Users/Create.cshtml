@@ -1,0 +1,105 @@
+﻿@using EDiary.Common
+@using EDiary.Data.Models.Enums
+@model EDiary.Web.ViewModels.Administration.Users.InputViewModels.UserCreateInputModel
+@{
+    ViewData["Title"] = "Create new User";
+    var roles = Model.ApplicationRoles.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+}
+
+<h1 class="text-sm-center">Create new User in <a asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@Model.SchoolId">@this.ViewBag.SchoolName</a> @GlobalConstants.SystemName</h1>
+
+<hr class="my-4" />
+
+<form method="post">
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.FirstName" class="font-weight-bold"></label>
+        </div>
+        <input asp-for="@Model.FirstName" class="form-control" placeholder="FirstName..." />
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.LastName" class="font-weight-bold"></label>
+        </div>
+        <input asp-for="@Model.LastName" class="form-control" placeholder="LastName..." />
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.Email" class="font-weight-bold"></label>
+        </div>
+        <input asp-for="@Model.Email" class="form-control" type="email" placeholder="Email..." />
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.UniqueCitizenshipNumber" class="font-weight-bold"></label>
+        </div>
+        <input asp-for="@Model.UniqueCitizenshipNumber" class="form-control" placeholder="Unique Citizenship Number..." />
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.UniqueCitizenshipNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.Birthday" class="font-weight-bold"></label>
+        </div>
+        <input type="date" asp-for="@Model.Birthday" class="form-control" />
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.Birthday" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.Class" class="font-weight-bold"></label>
+        </div>
+        <select asp-for="@Model.Class" asp-items="Html.GetEnumSelectList<Class>()" class="form-control">
+            <option selected="selected" value="">Please select</option>
+        </select>
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.Class" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.TypeOfClass" class="font-weight-bold"></label>
+        </div>
+        <select asp-for="@Model.TypeOfClass" asp-items="Html.GetEnumSelectList<TypeOfClass>()" class="form-control">
+            <option selected="selected" value="">Please select</option>
+        </select>
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.TypeOfClass" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="d-flex justify-content-center">
+            <label asp-for="@Model.ApplicationRoleId" class="font-weight-bold"></label>
+        </div>
+        <select asp-for="@Model.ApplicationRoleId" asp-items="roles" class="form-control">
+            <option selected="selected" value="">Please select Role</option>
+        </select>
+        <div class="d-flex justify-content-center">
+            <span asp-validation-for="@Model.ApplicationRoleId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <hr />
+    <div class="d-flex justify-content-center">
+        <input type="submit" class="btn btn-primary" />
+    </div>
+</form>

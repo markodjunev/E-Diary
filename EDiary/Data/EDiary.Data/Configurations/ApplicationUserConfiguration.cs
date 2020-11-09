@@ -28,10 +28,6 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-
-            appUser
-                .HasIndex(e => e.UniqueCitizenshipNumber)
-                .IsUnique();
         }
     }
 }
