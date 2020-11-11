@@ -1,8 +1,6 @@
 ﻿namespace EDiary.Services.Data.Interfaces
 {
-    using System.Collections.Generic;
-
-    using EDiary.Data.Models;
+    using System.Threading.Tasks;
 
     public interface IUsersService
     {
@@ -10,6 +8,6 @@
 
         bool IsEmailUsed(string email);
 
-        IEnumerable<ApplicationUser> GetStudentsBySchoolId(int id);
+        Task<bool> IsSchoolPrincipalAlreadyAddedAsync(int id);
     }
 }

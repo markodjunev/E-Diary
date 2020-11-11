@@ -67,18 +67,11 @@
 
             if (role.Name == GlobalConstants.PrincipalRoleName)
             {
-                var users = this.usersService.GetStudentsBySchoolId(id);
+                var isSchoolPrincipalAlreadyAdded = await this.usersService.IsSchoolPrincipalAlreadyAddedAsync(id);
 
-                foreach (var user in users)
+                if (isSchoolPrincipalAlreadyAdded)
                 {
-                    var userRoles = await this.userManager.GetRolesAsync(user);
-                    foreach (var userRole in userRoles)
-                    {
-                        if (userRole == GlobalConstants.PrincipalRoleName)
-                        {
-                            return this.Json("The school has already a principal.");
-                        }
-                    }
+                    return this.Json("The school has already a principal.");
                 }
             }
 
