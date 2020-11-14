@@ -8,6 +8,7 @@
 
     using EDiary.Common;
     using EDiary.Data.Models;
+    using EDiary.Data.Models.Enums;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Administration.Roles.InputModels;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
@@ -67,6 +68,12 @@
 
             var newUser = new ApplicationUser();
 
+            if (role.Name != GlobalConstants.StudentRoleName)
+            {
+                newUser.Class = Class.None;
+                newUser.TypeOfClass = TypeOfClass.None;
+            }
+
             if (role.Name == GlobalConstants.StudentRoleName || role.Name == GlobalConstants.TeacherRoleName || role.Name == GlobalConstants.PrincipalRoleName)
             {
                 if (role.Name == GlobalConstants.PrincipalRoleName)
@@ -81,6 +88,11 @@
 
                 if (role.Name == GlobalConstants.StudentRoleName)
                 {
+                    if (input.Class == Class.None || input.TypeOfClass == TypeOfClass.None)
+                    {
+                        return this.Json("Please choose correct class of the Student");
+                    }
+
                     newUser.Class = input.Class;
                     newUser.TypeOfClass = input.TypeOfClass;
                 }
