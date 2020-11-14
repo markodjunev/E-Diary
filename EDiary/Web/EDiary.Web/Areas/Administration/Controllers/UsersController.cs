@@ -65,28 +65,35 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            if (role.Name == GlobalConstants.PrincipalRoleName)
-            {
-                var isSchoolPrincipalAlreadyAdded = await this.usersService.IsSchoolPrincipalAlreadyAddedAsync(id);
+            var newUser = new ApplicationUser();
 
-                if (isSchoolPrincipalAlreadyAdded)
+            if (role.Name == GlobalConstants.StudentRoleName || role.Name == GlobalConstants.TeacherRoleName || role.Name == GlobalConstants.PrincipalRoleName)
+            {
+                if (role.Name == GlobalConstants.PrincipalRoleName)
                 {
-                    return this.Json("The school has already a principal.");
+                    var isSchoolPrincipalAlreadyAdded = await this.usersService.IsSchoolPrincipalAlreadyAddedAsync(id);
+
+                    if (isSchoolPrincipalAlreadyAdded)
+                    {
+                        return this.Json("The school has already a principal.");
+                    }
                 }
+
+                if (role.Name == GlobalConstants.StudentRoleName)
+                {
+                    newUser.Class = input.Class;
+                    newUser.TypeOfClass = input.TypeOfClass;
+                }
+
+                newUser.SchoolId = id;
             }
 
-            var newUser = new ApplicationUser
-            {
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                Email = input.Email,
-                UserName = input.UniqueCitizenshipNumber,
-                Birthday = input.Birthday,
-                UniqueCitizenshipNumber = input.UniqueCitizenshipNumber,
-                SchoolId = id,
-                Class = input.Class,
-                TypeOfClass = input.TypeOfClass,
-            };
+            newUser.FirstName = input.FirstName;
+            newUser.LastName = input.LastName;
+            newUser.Email = input.Email;
+            newUser.UserName = input.UniqueCitizenshipNumber;
+            newUser.Birthday = input.Birthday;
+            newUser.UniqueCitizenshipNumber = input.UniqueCitizenshipNumber;
 
             var result = await this.userManager.CreateAsync(newUser, input.UniqueCitizenshipNumber);
             if (result.Succeeded)
@@ -95,7 +102,7 @@
             }
             else
             {
-                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
             }
 
             return this.Redirect("/");
