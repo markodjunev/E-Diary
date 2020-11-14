@@ -28,6 +28,14 @@
 
         public DbSet<StudentParent> StudentsParents { get; set; }
 
+        public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<SubjectTeacher> SubjectsTeachers { get; set; }
+
+        public DbSet<SubjectClass> SubjectsClasses { get; set; }
+
+        public DbSet<SubjectClassTeacher> SubjectClassesTeachers { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

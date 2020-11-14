@@ -20,5 +20,7 @@
         public string ImageUrl { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
+
+        public virtual ICollection<Subject> Subjects { get; set; }
     }
 }
