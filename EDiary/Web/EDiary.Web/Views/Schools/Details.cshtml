@@ -29,7 +29,7 @@ else
                     <p class="card-text">@Model.Address</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="#">Subjects</a></li>
+                    <li class="list-group-item"><a asp-area="" asp-controller="Subjects" asp-action="All" asp-route-id="@Model.Id">Subjects</a></li>
                     <li class="list-group-item"><a href="#">Students</a></li>
                     <li class="list-group-item"><a href="#">Teachers</a></li>
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

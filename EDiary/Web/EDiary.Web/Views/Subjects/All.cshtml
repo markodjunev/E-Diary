@@ -1,0 +1,47 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Common.Subjects.OutputViewModels.AllSubjectsViewModel
+@{
+    ViewData["Title"] = $"Subjects in {this.ViewBag.SchoolName}";
+}
+
+@if (Model.Subjects.Count() == 0)
+{
+    <h1 class="text-center">
+        Sorry, there are no added subjects yet in
+        <a asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@this.ViewBag.SchoolId">@this.ViewBag.SchoolName</a>.
+    </h1>
+}
+else
+{
+    <h1 class="text-center">
+        All subjects in <a asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@this.ViewBag.SchoolId">@this.ViewBag.SchoolName</a>
+    </h1>
+    <hr class="my-4" />
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            <div class="list-group">
+                @foreach (var subject in Model.Subjects)
+                {
+                    <a href="#" class="font-weight-bold list-group-item list-group-item-action list-group-item-light">@subject.Name</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <hr class="my-4" />
+
+    <div class="text-center">
+        <a class="btn btn-primary" asp-area="Administration" asp-controller="Subjects" asp-action="Create" asp-route-id="@this.ViewBag.SchoolId">
+            Add new subject
+        </a>
+    </div>
+}
