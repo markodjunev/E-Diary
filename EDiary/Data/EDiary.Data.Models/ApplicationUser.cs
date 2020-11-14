@@ -26,10 +26,6 @@ namespace EDiary.Data.Models
 
         public string UniqueCitizenshipNumber { get; set; }
 
-        public string ParentUserId { get; set; }
-
-        public virtual ApplicationUser ParentUser { get; set; }
-
         public int? SchoolId { get; set; }
 
         public virtual School School { get; set; }

@@ -26,6 +26,8 @@
 
         public DbSet<School> Schools { get; set; }
 
+        public DbSet<StudentParent> StudentsParents { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

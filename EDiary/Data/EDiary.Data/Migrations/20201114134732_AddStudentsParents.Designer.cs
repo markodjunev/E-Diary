@@ -4,14 +4,16 @@ using EDiary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EDiary.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201114134732_AddStudentsParents")]
+    partial class AddStudentsParents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,6 +119,9 @@ namespace EDiary.Data.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("ParentUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -156,6 +161,8 @@ namespace EDiary.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ParentUserId");
 
                     b.HasIndex("SchoolId");
 
@@ -374,6 +381,10 @@ namespace EDiary.Data.Migrations
 
             modelBuilder.Entity("EDiary.Data.Models.ApplicationUser", b =>
                 {
+                    b.HasOne("EDiary.Data.Models.ApplicationUser", "ParentUser")
+                        .WithMany()
+                        .HasForeignKey("ParentUserId");
+
                     b.HasOne("EDiary.Data.Models.School", "School")
                         .WithMany("Users")
                         .HasForeignKey("SchoolId");
