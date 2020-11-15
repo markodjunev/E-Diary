@@ -35,6 +35,7 @@ else
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
                         <li class="list-group-item"><a href="#">Principal</a></li>
+                        <li class="list-group-item"><a asp-area="Administration" asp-controller="Users" asp-action="Create" asp-route-id="@Model.Id">Add new User</a></li>
                     }
                 </ul>
             </div>

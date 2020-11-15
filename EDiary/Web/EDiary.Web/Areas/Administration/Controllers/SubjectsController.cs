@@ -44,7 +44,7 @@
 
             await this.subjectsService.CreateAsync(id, input.Name);
 
-            return this.RedirectToAction("Details", "Schools", new { id, area = string.Empty });
+            return this.RedirectToAction("All", "Subjects", new { id, area = string.Empty });
         }
     }
 }
