@@ -36,5 +36,12 @@
 
             return subjects.To<T>().ToList();
         }
+
+        public Subject GetSubject(int id)
+        {
+            var subject = this.subjectsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            return subject;
+        }
     }
 }

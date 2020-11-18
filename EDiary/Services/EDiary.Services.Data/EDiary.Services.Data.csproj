@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\Data\EDiary.Data.Common\EDiary.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\EDiary.Data.Models\EDiary.Data.Models.csproj" />
     <ProjectReference Include="..\..\EDiary.Common\EDiary.Common.csproj" />
+    <ProjectReference Include="..\..\Web\EDiary.Web.ViewModels\EDiary.Web.ViewModels.csproj" />
     <ProjectReference Include="..\EDiary.Services.Mapping\EDiary.Services.Mapping.csproj" />
   </ItemGroup>
 
