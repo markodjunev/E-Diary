@@ -11,6 +11,7 @@
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
+    using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
     using Microsoft.AspNetCore.Identity;
 
     public class UsersService : IUsersService
@@ -26,10 +27,8 @@
             this.subjectsTeachersService = subjectsTeachersService;
         }
 
-        public async Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachers(int subjectId, int schoolId)
+        public async Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachersAsync(int subjectId, int schoolId)
         {
-            var subjectTeachers = this.subjectsTeachersService.GetAllSubjectTeachers(subjectId);
-
             var usersInTeacherRole = await this.userManager.GetUsersInRoleAsync(GlobalConstants.TeacherRoleName);
             var teachers = new List<ApplicationUser>();
 
@@ -56,6 +55,29 @@
                     FirstName = teacher.FirstName,
                     LastName = teacher.LastName,
                     Username = teacher.UserName,
+                };
+
+                result.Add(viewModel);
+            }
+
+            return result;
+        }
+
+        public async Task<List<TeacherInSubjectDetailsViewModel>> GetAllTeachersBySubjectIdAsync(int subjectId)
+        {
+            var subjectTeachers = this.subjectsTeachersService.GetAllSubjectTeachers(subjectId);
+
+            var result = new List<TeacherInSubjectDetailsViewModel>();
+            foreach (var subjectTeacher in subjectTeachers)
+            {
+                var teacher = await this.userManager.FindByIdAsync(subjectTeacher.TeacherId);
+                var viewModel = new TeacherInSubjectDetailsViewModel
+                {
+                    Id = teacher.Id,
+                    FirstName = teacher.FirstName,
+                    LastName = teacher.LastName,
+                    Username = teacher.UserName,
+                    Email = teacher.Email,
                 };
 
                 result.Add(viewModel);

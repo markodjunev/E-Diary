@@ -15,11 +15,16 @@
     {
         private readonly ISubjectsService subjectsService;
         private readonly ISchoolsService schoolsService;
+        private readonly IUsersService usersService;
 
-        public SubjectsController(ISubjectsService subjectsService, ISchoolsService schoolsService)
+        public SubjectsController(
+            ISubjectsService subjectsService,
+            ISchoolsService schoolsService,
+            IUsersService usersService)
         {
             this.subjectsService = subjectsService;
             this.schoolsService = schoolsService;
+            this.usersService = usersService;
         }
 
         public IActionResult All(int id)
@@ -40,6 +45,26 @@
             };
 
             return this.View(subjects);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var subject = this.subjectsService.GetSubject(id);
+
+            if (subject == null)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            this.ViewBag.SubjectId = id;
+            this.ViewBag.SubjectName = subject.Name;
+
+            var viewModel = new SubjectDetailsViewModel
+            {
+                Teachers = await this.usersService.GetAllTeachersBySubjectIdAsync(id),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

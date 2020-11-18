@@ -10,28 +10,33 @@
 </h1>
 <hr class="my-4" />
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Username</th>
-            <th scope="col">FirstName</th>
-            <th scope="col">LastName</th>
-            <th scope="col">Email</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var teacher in Model.Teachers)
-        {
-        <tr>
-            <td>@teacher.Username</td>
-            <td>@teacher.FirstName</td>
-            <td>@teacher.LastName</td>
-            <td>@teacher.Email</td>
-            <td><a asp-area="Administration" asp-controller="SubjectsTeachers" asp-action="AddSubjectTeacher" 
-                   asp-route-subjectId="@this.ViewBag.SubjectId" asp-route-teacherId="@teacher.Id">
-                <span class="btn btn-success">Add to subject</span></a></td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teacher in Model.Teachers)
+            {
+                <tr>
+                    <td>@teacher.Username</td>
+                    <td>@teacher.FirstName</td>
+                    <td>@teacher.LastName</td>
+                    <td>@teacher.Email</td>
+                    <td>
+                        <a asp-area="Administration" asp-controller="SubjectsTeachers" asp-action="AddSubjectTeacher"
+                           asp-route-subjectId="@this.ViewBag.SubjectId" asp-route-teacherId="@teacher.Id">
+                            <span class="btn btn-success">Add to subject</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

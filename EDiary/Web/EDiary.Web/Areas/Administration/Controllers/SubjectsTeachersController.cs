@@ -81,7 +81,7 @@
 
             await this.subjectsTeachersService.CreateAsync(subjectId, teacherId);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Details", "Subjects", new { id = subjectId, area = string.Empty });
         }
 
         public async Task<IActionResult> AvailableTeachers(int id)
@@ -98,11 +98,59 @@
 
             var viewModel = new AllAvailableSubjectTeachers
             {
-                Teachers = await this.usersService.GetAllAvailableSubjectTeachers(subject.Id, subject.SchoolId),
+                Teachers = await this.usersService.GetAllAvailableSubjectTeachersAsync(subject.Id, subject.SchoolId),
                 School = this.schoolsService.GetById<SchoolInAvailableSubjectTeachers>(subject.SchoolId),
             };
 
             return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> RemoveSubjectTeacher(int subjectId, string teacherId)
+        {
+            var subject = this.subjectsService.GetSubject(subjectId);
+
+            if (subject == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var user = await this.userManager.FindByIdAsync(teacherId);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            if (subject.SchoolId != user.SchoolId)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var roles = await this.userManager.GetRolesAsync(user);
+            var isTeacher = false;
+
+            foreach (var role in roles)
+            {
+                if (role == GlobalConstants.TeacherRoleName)
+                {
+                    isTeacher = true;
+                    break;
+                }
+            }
+
+            if (!isTeacher)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var subjectTeacher = this.subjectsTeachersService.GetSubjectTeacher(subjectId, teacherId);
+            if (subjectTeacher == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            await this.subjectsTeachersService.DeleteAsync(subjectId, teacherId);
+            return this.RedirectToAction("All", "Subjects", new { id = subject.SchoolId, area = string.Empty });
         }
     }
 }

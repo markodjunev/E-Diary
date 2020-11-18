@@ -14,5 +14,7 @@
         SubjectTeacher GetSubjectTeacher(int subjectId, string teacherId);
 
         Task CreateAsync(int subjectId, string teacherId);
+
+        Task DeleteAsync(int subjectId, string teacherId);
     }
 }

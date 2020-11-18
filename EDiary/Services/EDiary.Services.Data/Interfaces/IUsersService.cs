@@ -5,6 +5,7 @@
 
     using EDiary.Data.Models;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
+    using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
 
     public interface IUsersService
     {
@@ -14,6 +15,8 @@
 
         Task<bool> IsSchoolPrincipalAlreadyAddedAsync(int id);
 
-        Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachers(int subjectId, int schoolId);
+        Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachersAsync(int subjectId, int schoolId);
+
+        Task<List<TeacherInSubjectDetailsViewModel>> GetAllTeachersBySubjectIdAsync(int subjectId);
     }
 }

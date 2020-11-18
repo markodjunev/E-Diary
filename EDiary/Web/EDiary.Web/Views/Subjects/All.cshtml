@@ -25,7 +25,8 @@ else
             <div class="list-group">
                 @foreach (var subject in Model.Subjects)
                 {
-                    <a href="#" class="font-weight-bold list-group-item list-group-item-action list-group-item-light">@subject.Name</a>
+                    <a asp-area="" asp-controller="Subjects" asp-action="Details" asp-route-id="@subject.Id" 
+                       class="font-weight-bold list-group-item list-group-item-action list-group-item-light">@subject.Name</a>
                 }
             </div>
         </div>

@@ -31,6 +31,14 @@
             await this.subjectsTeachersRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(int subjectId, string teacherId)
+        {
+            var subjectTeacher = this.subjectsTeachersRepository.All().FirstOrDefault(x => x.SubjectId == subjectId && x.TeacherId == teacherId);
+
+            this.subjectsTeachersRepository.Delete(subjectTeacher);
+            await this.subjectsTeachersRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<SubjectTeacher> GetAllSubjectTeachers(int id)
         {
             var subjectTeachers = this.subjectsTeachersRepository.All().Where(x => x.SubjectId == id);

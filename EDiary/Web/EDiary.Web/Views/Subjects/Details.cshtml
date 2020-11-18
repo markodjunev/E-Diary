@@ -1,0 +1,60 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Common.Subjects.OutputViewModels.SubjectDetailsViewModel
+@{
+    ViewData["Title"] = "Subject Details";
+}
+
+<h1 class="text-center">All @($"{this.ViewBag.SubjectName}'s") Teachers</h1>
+<hr class="my-4"/>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <caption>List of Teachers</caption>
+        <thead>
+            <tr>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <th scope="col">Username</th>
+                }
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Email</th>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <th scope="col"></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teacher in Model.Teachers)
+            {
+                <tr>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <td>@teacher.Username</td>
+                    }
+                    <td>@teacher.FirstName</td>
+                    <td>@teacher.LastName</td>
+                    <td>@teacher.Email</td>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        <td>
+                            <a asp-area="Administration" asp-controller="SubjectsTeachers" asp-action="RemoveSubjectTeacher"
+                               asp-route-subjectId="@this.ViewBag.SubjectId" asp-route-teacherId="@teacher.Id">
+                                <span class="btn btn-danger">Remove from subject</span>
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr class="my-4" />
+
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <a class="btn btn-outline-primary" asp-area="Administration" asp-controller="SubjectsTeachers" 
+           asp-action="AvailableTeachers" asp-route-id="@this.ViewBag.SubjectId">Add teacher</a>
+    }
+</div>
