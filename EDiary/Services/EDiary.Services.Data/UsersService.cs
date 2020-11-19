@@ -30,37 +30,27 @@
         public async Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachersAsync(int subjectId, int schoolId)
         {
             var usersInTeacherRole = await this.userManager.GetUsersInRoleAsync(GlobalConstants.TeacherRoleName);
-            var teachers = new List<ApplicationUser>();
+            var teachers = new List<AvailableSubjectTeacher>();
 
-            foreach (var user in usersInTeacherRole)
+            foreach (var user in usersInTeacherRole.Where(x => x.SchoolId == schoolId))
             {
-                if (user.SchoolId == schoolId)
+                var isTeacherAdded = this.subjectsTeachersService.IsTeacherArleadyEnrolledToSubject(subjectId, user.Id);
+                if (!isTeacherAdded)
                 {
-                    var isTeacherAdded = this.subjectsTeachersService.IsTeacherArleadyEnrolledToSubject(subjectId, user.Id);
-                    if (!isTeacherAdded)
+                    var viewModel = new AvailableSubjectTeacher
                     {
-                        teachers.Add(user);
-                    }
+                        Id = user.Id,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Username = user.UserName,
+                    };
+
+                    teachers.Add(viewModel);
                 }
             }
 
-            var result = new List<AvailableSubjectTeacher>();
-
-            foreach (var teacher in teachers)
-            {
-                var viewModel = new AvailableSubjectTeacher
-                {
-                    Id = teacher.Id,
-                    Email = teacher.Email,
-                    FirstName = teacher.FirstName,
-                    LastName = teacher.LastName,
-                    Username = teacher.UserName,
-                };
-
-                result.Add(viewModel);
-            }
-
-            return result;
+            return teachers;
         }
 
         public async Task<List<TeacherInSubjectDetailsViewModel>> GetAllTeachersBySubjectIdAsync(int subjectId)

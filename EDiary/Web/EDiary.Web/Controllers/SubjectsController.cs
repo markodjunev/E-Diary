@@ -58,6 +58,7 @@
 
             this.ViewBag.SubjectId = id;
             this.ViewBag.SubjectName = subject.Name;
+            this.ViewBag.SchoolId = subject.SchoolId;
 
             var viewModel = new SubjectDetailsViewModel
             {
