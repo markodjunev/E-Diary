@@ -85,21 +85,14 @@
 
         public async Task<bool> IsSchoolPrincipalAlreadyAddedAsync(int id)
         {
-            var users = this.usersRepository.All().Where(x => x.SchoolId == id);
+            var principals = await this.userManager.GetUsersInRoleAsync(GlobalConstants.PrincipalRoleName);
 
-            foreach (var user in users)
+            if (principals.Where(x => x.SchoolId == id).Count() == 0)
             {
-                var userRoles = await this.userManager.GetRolesAsync(user);
-                foreach (var userRole in userRoles)
-                {
-                    if (userRole == GlobalConstants.PrincipalRoleName)
-                    {
-                        return true;
-                    }
-                }
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public bool IsUniqueCitizenshipNumberUsed(string uniqueCitizenshipNumber)
