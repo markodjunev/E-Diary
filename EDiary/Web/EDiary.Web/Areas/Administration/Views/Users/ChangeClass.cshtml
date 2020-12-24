@@ -1,0 +1,48 @@
+﻿@using EDiary.Common
+@using EDiary.Data.Models.Enums
+@model EDiary.Web.ViewModels.Administration.Users.InputViewModels.ChangeClassInputModel
+@{
+    ViewData["Title"] = "Change class of User";
+}
+
+<h1 class="text-center">Change class of @this.ViewBag.StudentFullName</h1>
+<hr />
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <form method="post">
+
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.Class" class="font-weight-bold"></label>
+                </div>
+                <select asp-for="@Model.Class" asp-items="Html.GetEnumSelectList<Class>()" class="form-control">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <div class="d-flex justify-content-center">
+                    <span asp-validation-for="@Model.Class" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.TypeOfClass" class="font-weight-bold"></label>
+                </div>
+                <select asp-for="@Model.TypeOfClass" asp-items="Html.GetEnumSelectList<TypeOfClass>()" class="form-control">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <div class="d-flex justify-content-center">
+                    <span asp-validation-for="@Model.TypeOfClass" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="Change" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

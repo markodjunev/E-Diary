@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using EDiary.Data.Models;
+    using EDiary.Data.Models.Enums;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
@@ -27,5 +28,7 @@
         bool IsUniqueCitizenshipNumberVaildInEdit(string uniqueCitizenshipNumber, string userId);
 
         Task EditAsync(UserEditInputModel editedUser, string id);
+
+        Task ChangeClassAsync(Class newClass, TypeOfClass typeOfClass, string userId);
     }
 }

@@ -9,6 +9,7 @@
     using EDiary.Common;
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
+    using EDiary.Data.Models.Enums;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
@@ -26,6 +27,16 @@
             this.usersRepository = usersRepository;
             this.userManager = userManager;
             this.subjectsTeachersService = subjectsTeachersService;
+        }
+
+        public async Task ChangeClassAsync(Class newClass, TypeOfClass typeOfClass, string userId)
+        {
+            var user = this.GetUserById(userId);
+
+            user.Class = newClass;
+            user.TypeOfClass = typeOfClass;
+            this.usersRepository.Update(user);
+            await this.usersRepository.SaveChangesAsync();
         }
 
         public async Task EditAsync(UserEditInputModel editedUser, string id)

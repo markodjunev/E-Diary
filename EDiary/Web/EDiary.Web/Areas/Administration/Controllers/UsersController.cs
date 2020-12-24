@@ -162,6 +162,45 @@
             return this.Redirect("/");
         }
 
+        public async Task<IActionResult> ChangeClass(string id)
+        {
+            var user = this.usersService.GetUserById(id);
+            var isStudent = await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName);
+
+            if (user == null || isStudent == false)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            this.ViewBag.StudentFullName = $"{user.FirstName} {user.LastName}";
+
+            var model = new ChangeClassInputModel
+            {
+                Class = user.Class ?? Class.None,
+                TypeOfClass = user.TypeOfClass ?? TypeOfClass.None,
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeClass(ChangeClassInputModel input, string id)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            if (input.Class == Class.None || input.TypeOfClass == TypeOfClass.None)
+            {
+                return this.Json("Enter a valid class");
+            }
+
+            await this.usersService.ChangeClassAsync(input.Class, input.TypeOfClass, id);
+
+            return this.Redirect("/");
+        }
+
         [AcceptVerbs("GET", "POST")]
         public IActionResult IsUniqueCitizenshipNumberUsed(string uniqueCitizenshipNumber)
         {
