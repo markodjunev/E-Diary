@@ -120,6 +120,48 @@
             return this.Redirect("/");
         }
 
+        public IActionResult Edit(string id)
+        {
+            var user = this.usersService.GetUserById(id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var model = new UserEditInputModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                UniqueCitizenshipNumber = user.UniqueCitizenshipNumber,
+                Birthday = user.Birthday ?? DateTime.Now,
+            };
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditInputModel input, string id)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            if (this.usersService.IsEmailVaildInEdit(input.Email, id) == false)
+            {
+                return this.Json($"The email {input.Email} is already in use.");
+            }
+
+            if (this.usersService.IsUniqueCitizenshipNumberVaildInEdit(input.UniqueCitizenshipNumber, id) == false)
+            {
+                return this.Json($"The UniqueCitizenshipNumber {input.UniqueCitizenshipNumber} is already in use.");
+            }
+
+            await this.usersService.EditAsync(input, id);
+            return this.Redirect("/");
+        }
+
         [AcceptVerbs("GET", "POST")]
         public IActionResult IsUniqueCitizenshipNumberUsed(string uniqueCitizenshipNumber)
         {

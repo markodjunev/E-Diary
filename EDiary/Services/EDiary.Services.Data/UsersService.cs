@@ -10,6 +10,7 @@
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
     using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,25 @@
             this.usersRepository = usersRepository;
             this.userManager = userManager;
             this.subjectsTeachersService = subjectsTeachersService;
+        }
+
+        public async Task EditAsync(UserEditInputModel editedUser, string id)
+        {
+            var user = this.GetUserById(id);
+
+            user.FirstName = editedUser.FirstName;
+            user.LastName = editedUser.LastName;
+            user.Email = editedUser.Email;
+            user.NormalizedEmail = editedUser.Email.ToUpper();
+            user.Birthday = editedUser.Birthday;
+            user.UniqueCitizenshipNumber = editedUser.UniqueCitizenshipNumber;
+            user.UserName = editedUser.UniqueCitizenshipNumber;
+            user.NormalizedUserName = editedUser.UniqueCitizenshipNumber;
+
+            await this.userManager.RemovePasswordAsync(user);
+            await this.userManager.AddPasswordAsync(user, editedUser.UniqueCitizenshipNumber);
+            this.usersRepository.Update(user);
+            await this.usersRepository.SaveChangesAsync();
         }
 
         public async Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachersAsync(int subjectId, int schoolId)
@@ -76,11 +96,35 @@
             return result;
         }
 
+        public ApplicationUser GetUserById(string id)
+        {
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
+
+            return user;
+        }
+
         public bool IsEmailUsed(string email)
         {
             var isUsed = this.usersRepository.AllWithDeleted().Any(x => x.Email == email);
 
             return isUsed;
+        }
+
+        public bool IsEmailVaildInEdit(string email, string userId)
+        {
+            var user = this.GetUserById(userId);
+            if (user.Email == email)
+            {
+                return true;
+            }
+
+            var users = this.usersRepository.All().Where(x => x.Email == email);
+            if (users.Count() == 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> IsSchoolPrincipalAlreadyAddedAsync(int id)
@@ -100,6 +144,23 @@
             var isUsed = this.usersRepository.AllWithDeleted().Any(x => x.UniqueCitizenshipNumber == uniqueCitizenshipNumber);
 
             return isUsed;
+        }
+
+        public bool IsUniqueCitizenshipNumberVaildInEdit(string uniqueCitizenshipNumber, string userId)
+        {
+            var user = this.GetUserById(userId);
+            if (user.UniqueCitizenshipNumber == uniqueCitizenshipNumber)
+            {
+                return true;
+            }
+
+            var users = this.usersRepository.All().Where(x => x.UniqueCitizenshipNumber == uniqueCitizenshipNumber);
+            if (users.Count() == 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
