@@ -1,0 +1,60 @@
+﻿@using EDiary.Data.Models.Enums
+@model EDiary.Web.ViewModels.Administration.SubjectsClasses.InputViewModels.SubjectClassInputModel
+@{
+    ViewData["Title"] = "Add subject to class";
+    var subjects = Model.Subjects.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+}
+
+<h1 class="text-center">Add subject to class in @this.ViewBag.SchoolName</h1>
+
+<hr class="my-4" />
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <form method="post">
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.Class" class="font-weight-bold"></label>
+                </div>
+                <select asp-for="@Model.Class" asp-items="Html.GetEnumSelectList<Class>()" class="form-control">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <div class="d-flex justify-content-center">
+                    <span asp-validation-for="@Model.Class" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.TypeOfClass" class="font-weight-bold"></label>
+                </div>
+                <select asp-for="@Model.TypeOfClass" asp-items="Html.GetEnumSelectList<TypeOfClass>()" class="form-control">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <div class="d-flex justify-content-center">
+                    <span asp-validation-for="@Model.TypeOfClass" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <label asp-for="@Model.SubjectId" class="font-weight-bold"></label>
+                </div>
+                <select asp-for="@Model.SubjectId" asp-items="subjects" class="form-control">
+                    <option selected="selected" value="">Please select Subject</option>
+                </select>
+                <div class="d-flex justify-content-center">
+                    <span asp-validation-for="@Model.SubjectId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

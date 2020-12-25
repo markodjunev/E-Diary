@@ -73,6 +73,7 @@
             services.AddTransient<IRolesService, RolesService>();
             services.AddTransient<ISubjectsService, SubjectsService>();
             services.AddTransient<ISubjectsTeachersService, SubjectsTeachersService>();
+            services.AddTransient<ISubjectsClassesService, SubjectsClassesService>();
 
             // Add Cloudinary account
             Account account = new Account(

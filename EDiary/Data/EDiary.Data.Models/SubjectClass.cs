@@ -9,6 +9,10 @@
 
         public virtual Subject Subject { get; set; }
 
+        public int SchoolId { get; set; }
+
+        public virtual School School { get; set; }
+
         public Class Class { get; set; }
 
         public TypeOfClass TypeOfClass { get; set; }
