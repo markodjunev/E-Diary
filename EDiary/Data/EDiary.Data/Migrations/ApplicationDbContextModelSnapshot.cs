@@ -162,49 +162,6 @@ namespace EDiary.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("EDiary.Data.Models.ScheduleSubjectClass", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FinishAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SubjecClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubjectClassId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("SubjectClassId");
-
-                    b.ToTable("ScheduleSubjectClasses");
-                });
-
             modelBuilder.Entity("EDiary.Data.Models.School", b =>
                 {
                     b.Property<int>("Id")
@@ -568,13 +525,6 @@ namespace EDiary.Data.Migrations
                     b.HasOne("EDiary.Data.Models.School", "School")
                         .WithMany("Users")
                         .HasForeignKey("SchoolId");
-                });
-
-            modelBuilder.Entity("EDiary.Data.Models.ScheduleSubjectClass", b =>
-                {
-                    b.HasOne("EDiary.Data.Models.SubjectClass", "SubjectClass")
-                        .WithMany("ScheduleSubjectClasses")
-                        .HasForeignKey("SubjectClassId");
                 });
 
             modelBuilder.Entity("EDiary.Data.Models.StudentParent", b =>

@@ -36,8 +36,6 @@
 
         public DbSet<SubjectClassTeacher> SubjectClassesTeachers { get; set; }
 
-        public DbSet<ScheduleSubjectClass> ScheduleSubjectClasses { get; set; }
-
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
