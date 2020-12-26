@@ -7,6 +7,11 @@
 
     public class SubjectClass : BaseDeletableModel<int>
     {
+        public SubjectClass()
+        {
+            this.ScheduleSubjectsClasses = new HashSet<ScheduleSubjectClass>();
+        }
+
         public int SubjectId { get; set; }
 
         public virtual Subject Subject { get; set; }
@@ -19,5 +24,6 @@
 
         public TypeOfClass TypeOfClass { get; set; }
 
+        public ICollection<ScheduleSubjectClass> ScheduleSubjectsClasses { get; set; }
     }
 }
