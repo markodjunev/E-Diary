@@ -75,6 +75,7 @@
             services.AddTransient<ISubjectsTeachersService, SubjectsTeachersService>();
             services.AddTransient<ISubjectsClassesService, SubjectsClassesService>();
             services.AddTransient<IScheduleSubjectsClassesService, ScheduleSubjectsClassesService>();
+            services.AddTransient<IStudentsParentsService, StudentsParentsService>();
 
             // Add Cloudinary account
             Account account = new Account(
