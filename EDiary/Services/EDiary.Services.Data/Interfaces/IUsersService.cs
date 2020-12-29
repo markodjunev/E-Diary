@@ -27,8 +27,10 @@
 
         bool IsUniqueCitizenshipNumberVaildInEdit(string uniqueCitizenshipNumber, string userId);
 
-        Task EditAsync(UserEditInputModel editedUser, string id);
+        Task<ApplicationUser> EditAsync(UserEditInputModel editedUser, string id);
 
         Task ChangeClassAsync(Class newClass, TypeOfClass typeOfClass, string userId);
+
+        IEnumerable<T> GetAllStudentsByClass<T>(int schoolId, Class @class, TypeOfClass typeOfClass);
     }
 }

@@ -1,0 +1,69 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Common.Classes.OutputViewModels.ByClassViewModel
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h3 class="text-center">Students of @this.ViewBag.Class</h3>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-9">
+        @if (Model.Students.Count() == 0)
+        {
+            <h3>Sorry there are no students in this class</h3>
+        }
+        else
+        {
+            <table class="table">
+                <caption>Students</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">UCN</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <th scope="col">Edit</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <th scope="row">@student.UniqueCitizenshipNumber</th>
+                            <td>@student.FirstName</td>
+                            <td>@student.LastName</td>
+                            <td>@student.Email</td>
+                            <td>Details</td>
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
+                                <td><a asp-area="Administration" asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Edit</a></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="col-md-3">
+        @if (Model.Subjects.Count() == 0)
+        {
+            <h5>No subjects</h5>
+        }
+        else
+        {
+            <div>Subjects</div>
+            <ul class="list-group">
+                @foreach (var subjectClass in Model.Subjects)
+                {
+                    <li class="list-group-item list-group-item-info">@subjectClass.SubjectName</li>
+                }
+            </ul>
+        }
+    </div>
+</div>

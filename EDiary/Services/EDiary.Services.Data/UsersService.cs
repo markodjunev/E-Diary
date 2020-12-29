@@ -11,6 +11,7 @@
     using EDiary.Data.Models;
     using EDiary.Data.Models.Enums;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
@@ -39,7 +40,7 @@
             await this.usersRepository.SaveChangesAsync();
         }
 
-        public async Task EditAsync(UserEditInputModel editedUser, string id)
+        public async Task<ApplicationUser> EditAsync(UserEditInputModel editedUser, string id)
         {
             var user = this.GetUserById(id);
 
@@ -56,6 +57,8 @@
             await this.userManager.AddPasswordAsync(user, editedUser.UniqueCitizenshipNumber);
             this.usersRepository.Update(user);
             await this.usersRepository.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task<List<AvailableSubjectTeacher>> GetAllAvailableSubjectTeachersAsync(int subjectId, int schoolId)
@@ -82,6 +85,16 @@
             }
 
             return teachers;
+        }
+
+        public IEnumerable<T> GetAllStudentsByClass<T>(int schoolId, Class @class, TypeOfClass typeOfClass)
+        {
+            IQueryable<ApplicationUser> students = this.usersRepository.All()
+                .Where(x => x.SchoolId == schoolId && x.Class == @class && x.TypeOfClass == typeOfClass)
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName);
+
+            return students.To<T>().ToList();
         }
 
         public async Task<List<TeacherInSubjectDetailsViewModel>> GetAllTeachersBySubjectIdAsync(int subjectId)

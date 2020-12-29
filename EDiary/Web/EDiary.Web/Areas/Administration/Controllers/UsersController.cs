@@ -158,8 +158,19 @@
                 return this.Json($"The UniqueCitizenshipNumber {input.UniqueCitizenshipNumber} is already in use.");
             }
 
-            await this.usersService.EditAsync(input, id);
-            return this.Redirect("/");
+            var user = await this.usersService.EditAsync(input, id);
+
+            if (await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName))
+            {
+                return this.RedirectToAction("ByClass", "Users", new { area = string.Empty, id = user.SchoolId, @class = user.Class, typeOfClass = user.TypeOfClass });
+            }
+
+            if (await this.userManager.IsInRoleAsync(user, GlobalConstants.ParentRoleName))
+            {
+                return this.Redirect("/");
+            }
+
+            return this.RedirectToAction("Details", "Schools", new { area = string.Empty, id = user.SchoolId });
         }
 
         public async Task<IActionResult> ChangeClass(string id)

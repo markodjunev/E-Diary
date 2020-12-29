@@ -1,5 +1,6 @@
 ﻿namespace EDiary.Services.Data.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using EDiary.Data.Models;
@@ -14,5 +15,7 @@
         SubjectClass GetById(int id);
 
         Task Remove(int id);
+
+        IEnumerable<T> GetAllByClasses<T>(int schoolId, Class @class, TypeOfClass typeOfClass);
     }
 }

@@ -30,12 +30,14 @@ else
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><a asp-area="" asp-controller="Subjects" asp-action="All" asp-route-id="@Model.Id">Subjects</a></li>
-                    <li class="list-group-item"><a href="#">Students</a></li>
-                    <li class="list-group-item"><a href="#">Teachers</a></li>
+                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.PrincipalRoleName))
+                    {
+                        <li class="list-group-item"><a asp-area="" asp-controller="Users" asp-action="Search" asp-route-id="@Model.Id">Classes</a></li>
+                    }
                     @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                     {
-                        <li class="list-group-item"><a href="#">Principal</a></li>
-                        <li class="list-group-item"><a asp-area="Administration" asp-controller="Users" asp-action="Create" asp-route-id="@Model.Id">Add new User</a></li>
+                        <li class="list-group-item"><a asp-area="Administration" asp-controller="SubjectsClasses" asp-action="AddSubjectToClass" asp-route-id="@Model.Id">Add subject to class</a></li>
+                        <li class="list-group-item"><a asp-area="Administration" asp-controller="Users" asp-action="Create" asp-route-id="@Model.Id">Add new user</a></li>
                     }
                 </ul>
             </div>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Search Users";
+    var classes = new List<string> { "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelfth" };
+    var typeOfClasses = new List<string> { "A", "B", "C" };
+}
+
+<h1 class="text-center">Search Users By Class in @this.ViewBag.SchoolName</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        @foreach (var curClass in classes)
+        {
+            <h6>
+                @foreach (var typeOfClass in typeOfClasses)
+                {
+                    <span class="mr-4"><a asp-area="" asp-controller="Users" asp-action="ByClass" 
+                                          asp-route-id="@this.ViewBag.SchoolId" asp-route-class="@curClass" asp-route-typeOfClass="@typeOfClass">@curClass@typeOfClass</a></span>
+                }
+            </h6>
+            <hr />
+        }
+    </div>
+</div>

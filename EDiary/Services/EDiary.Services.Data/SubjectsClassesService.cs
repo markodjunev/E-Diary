@@ -1,5 +1,6 @@
 ﻿namespace EDiary.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@
     using EDiary.Data.Models;
     using EDiary.Data.Models.Enums;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class SubjectsClassesService : ISubjectsClassesService
     {
@@ -45,6 +47,14 @@
             }
 
             return true;
+        }
+
+        public IEnumerable<T> GetAllByClasses<T>(int schoolId, Class @class, TypeOfClass typeOfClass)
+        {
+            IQueryable<SubjectClass> subjectClasses = this.subjectsClassesRepository.All()
+                .Where(x => x.SchoolId == schoolId && x.Class == @class && x.TypeOfClass == typeOfClass);
+
+            return subjectClasses.To<T>().ToList();
         }
 
         public SubjectClass GetById(int id)

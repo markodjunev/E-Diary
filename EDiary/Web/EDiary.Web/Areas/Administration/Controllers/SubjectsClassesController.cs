@@ -61,7 +61,7 @@
 
             await this.subjectsClassesService.Create(input.Class, input.TypeOfClass, input.SubjectId, id);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Details", "Schools", new { area = string.Empty, id = id });
         }
 
         public async Task<IActionResult> Remove(int id)
