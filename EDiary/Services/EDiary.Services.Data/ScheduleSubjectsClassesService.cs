@@ -1,12 +1,14 @@
 ﻿namespace EDiary.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class ScheduleSubjectsClassesService : IScheduleSubjectsClassesService
     {
@@ -37,6 +39,14 @@
 
             this.scheduleSubjectsClassesRepository.Delete(scheduleSubjectClass);
             await this.scheduleSubjectsClassesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAllBySubjectClassId<T>(int id)
+        {
+            IQueryable<ScheduleSubjectClass> scheduleSubjectClasses = this.scheduleSubjectsClassesRepository.All()
+                .Where(x => x.SubjectClassId == id);
+
+            return scheduleSubjectClasses.To<T>().ToList();
         }
 
         public ScheduleSubjectClass GetById(int id)

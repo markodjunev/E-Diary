@@ -1,8 +1,10 @@
 ﻿namespace EDiary.Services.Data.Interfaces
 {
-    using EDiary.Data.Models;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using EDiary.Data.Models;
 
     public interface IScheduleSubjectsClassesService
     {
@@ -11,5 +13,7 @@
         ScheduleSubjectClass GetById(int id);
 
         Task DeleteAsync(int id);
+
+        IEnumerable<T> GetAllBySubjectClassId<T>(int id);
     }
 }

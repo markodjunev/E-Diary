@@ -57,7 +57,7 @@
 
             await this.scheduleSubjectsClassesService.CreateAsync(input.StartAt, input.FinishAt, input.DayOfWeek, id);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Schedule", "ScheduleSubjectsClasses", new { area = string.Empty, id = id });
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -69,9 +69,11 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
+            var redirect = scheduleSubjectClass.SubjectClassId;
+
             await this.scheduleSubjectsClassesService.DeleteAsync(id);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Schedule", "ScheduleSubjectsClasses", new { area = string.Empty, id = redirect });
         }
     }
 }

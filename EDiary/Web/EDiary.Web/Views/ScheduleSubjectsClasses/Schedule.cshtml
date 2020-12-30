@@ -1,0 +1,66 @@
+﻿@using EDiary.Common
+@model EDiary.Web.ViewModels.Common.ScheduleSubjectsClasses.OutputViewModels.ScheduleSubjectsClassesViewModel
+@{
+    ViewData["Title"] = "Schedule";
+    var counter = 0;
+}
+
+<h2 class="text-center">Schedule</h2>
+<hr />
+
+@if (Model.Schedule.Count() == 0)
+{
+    <h1 class="text-center font-weight-bold">Sorry the is no schedule for this subject</h1>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">DayOfWeek</th>
+                        <th scope="col">StartAt</th>
+                        <th scope="col">FinishAt</th>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <th scope="col">Remove</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var schedule in Model.Schedule)
+                    {
+                        <tr>
+                            <th scope="row">@(++@counter)</th>
+                            <td>@schedule.DayOfWeek</td>
+                            <td>@schedule.StartAt.ToString("hh:mm tt")</td>
+                            <td>@schedule.FinishAt.ToString("hh:mm tt")</td>
+                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                            {
+                                <td>
+                                    <a class="btn btn-danger"
+                                       asp-area="Administration" asp-controller="ScheduleSubjectsClasses" asp-action="Delete" asp-route-id="@schedule.Id">
+                                        Remove from schedule
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <hr />
+    <div class="text-center">
+        <a class="btn btn-primary" asp-area="Administration" asp-controller="ScheduleSubjectsClasses" asp-action="Create" asp-route-id="1">Add Schedule</a>
+    </div>
+}

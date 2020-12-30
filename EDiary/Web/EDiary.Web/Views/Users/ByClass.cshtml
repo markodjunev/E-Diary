@@ -61,7 +61,8 @@
             <ul class="list-group">
                 @foreach (var subjectClass in Model.Subjects)
                 {
-                    <li class="list-group-item list-group-item-info">@subjectClass.SubjectName</li>
+                    <li class="list-group-item list-group-item-info">
+                        <a asp-area="" asp-controller="ScheduleSubjectsClasses" asp-action="Schedule" asp-route-id="@subjectClass.Id">@subjectClass.SubjectName</a></li>
                 }
             </ul>
         }
