@@ -126,17 +126,7 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            var roles = await this.userManager.GetRolesAsync(user);
-            var isTeacher = false;
-
-            foreach (var role in roles)
-            {
-                if (role == GlobalConstants.TeacherRoleName)
-                {
-                    isTeacher = true;
-                    break;
-                }
-            }
+            var isTeacher = await this.userManager.IsInRoleAsync(user, GlobalConstants.TeacherRoleName);
 
             if (!isTeacher)
             {

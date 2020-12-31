@@ -1,9 +1,9 @@
-﻿namespace EDiary.Web.ViewModels.Common.Users.OutputViewModels
+﻿namespace EDiary.Web.ViewModels.Administration.SubjectsTeachers.OutputViewModels
 {
     using EDiary.Data.Models;
     using EDiary.Services.Mapping;
 
-    public class TeacherScheduleSubjectClass : IMapFrom<SubjectClassTeacher>
+    public class SubjectTeachersBySubjectId : IMapFrom<SubjectTeacher>
     {
         public string TeacherId { get; set; }
 

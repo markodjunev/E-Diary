@@ -1,0 +1,35 @@
+﻿@model EDiary.Web.ViewModels.Administration.SubjectsTeachers.OutputViewModels.AllSubjectTeachersBySubjectId
+@{
+    ViewData["Title"] = "Subject Teachers";
+}
+
+<h1 class="text-center mt-2">Teachers</h1>
+<hr class="my-4" />
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teacher in Model.Teachers)
+            {
+                <tr>
+                    <td>@teacher.TeacherFirstName</td>
+                    <td>@teacher.TeacherLastName</td>
+                    <td>@teacher.TeacherEmail</td>
+                    <td>
+                        <a class="btn btn-outline-primary" 
+                           asp-area="Administration" asp-controller="SubjectsClassesTeachers" asp-action="Add"
+                           asp-route-id="@this.ViewBag.SubjectClassId" asp-route-teacherId="@teacher.TeacherId">Add teacher to this class</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

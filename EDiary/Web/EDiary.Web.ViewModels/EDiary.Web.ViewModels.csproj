@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Administration\SubjectsClassesTeachers\" />
     <Folder Include="Administration\Subjects\OutputViewModels\" />
   </ItemGroup>
 

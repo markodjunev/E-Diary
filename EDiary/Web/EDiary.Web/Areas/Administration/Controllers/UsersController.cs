@@ -117,7 +117,7 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
             }
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Details", "Schools", new { area = string.Empty, id = id });
         }
 
         public IActionResult Edit(string id)

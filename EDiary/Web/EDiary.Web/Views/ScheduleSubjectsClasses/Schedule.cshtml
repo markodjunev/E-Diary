@@ -2,7 +2,6 @@
 @model EDiary.Web.ViewModels.Common.ScheduleSubjectsClasses.OutputViewModels.ScheduleSubjectsClassesViewModel
 @{
     ViewData["Title"] = "Schedule";
-    var counter = 0;
 }
 
 <h2 class="text-center">Schedule</h2>
@@ -15,11 +14,9 @@
 else
 {
     <div class="row">
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
             <table class="table">
+                <caption>Schedule</caption>
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -36,7 +33,7 @@ else
                     @foreach (var schedule in Model.Schedule)
                     {
                         <tr>
-                            <th scope="row">@(++@counter)</th>
+                            <th scope="row"></th>
                             <td>@schedule.DayOfWeek</td>
                             <td>@schedule.StartAt.ToString("hh:mm tt")</td>
                             <td>@schedule.FinishAt.ToString("hh:mm tt")</td>
@@ -53,6 +50,43 @@ else
                     }
                 </tbody>
             </table>
+
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <caption>Teachers</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">FirstName</th>
+                        <th scope="col">LastName</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var teacher in Model.Teachers)
+                    {
+                    <tr>
+                        <th scope="row"></th>
+                        <td>@teacher.TeacherFirstName</td>
+                        <td>@teacher.TeacherLastName</td>
+                        <td>@teacher.TeacherEmail</td>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <td>
+                                <a class="btn btn-danger"
+                                   asp-area="Administration" asp-controller="SubjectsClassesTeachers" asp-action="Remove" 
+                                   asp-route-id="@this.ViewBag.SubjectClassId" asp-route-teacherId="@teacher.TeacherId">
+                                    Remove as teacher
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
     </div>
 }
@@ -60,7 +94,18 @@ else
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <hr />
-    <div class="text-center">
-        <a class="btn btn-primary" asp-area="Administration" asp-controller="ScheduleSubjectsClasses" asp-action="Create" asp-route-id="1">Add Schedule</a>
+    <div class="d-flex justify-content-between">
+        <div>
+            <a class="btn btn-primary"
+               asp-area="Administration" asp-controller="ScheduleSubjectsClasses" asp-action="Create" asp-route-id="@this.ViewBag.SubjectClassId">
+                Add Schedule
+            </a>
+        </div>
+        <div>
+            <a class="btn btn-success"
+               asp-area="Administration" asp-controller="SubjectsClassesTeachers" asp-action="AvailableTeachers" asp-route-id="@this.ViewBag.SubjectClassId">
+                See teachers of this subject
+            </a>
+        </div>
     </div>
 }

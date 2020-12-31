@@ -9,6 +9,7 @@
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class SubjectsTeachersService : ISubjectsTeachersService
     {
@@ -60,6 +61,13 @@
             var isTeacherAdded = subjectTeachers.Any(x => x.TeacherId == teacherId);
 
             return isTeacherAdded;
+        }
+
+        public IEnumerable<T> SubjectTeachers<T>(int subjectId)
+        {
+            IQueryable<SubjectTeacher> subjectTeachers = this.subjectsTeachersRepository.All().Where(x => x.SubjectId == subjectId);
+
+            return subjectTeachers.To<T>().ToList();
         }
     }
 }

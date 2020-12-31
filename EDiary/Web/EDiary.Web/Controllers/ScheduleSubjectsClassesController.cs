@@ -6,6 +6,7 @@
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Common.ScheduleSubjectsClasses.OutputViewModels;
+    using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -15,15 +16,18 @@
         private readonly IScheduleSubjectsClassesService scheduleSubjectsClassesService;
         private readonly ISubjectsClassesService subjectsClassesService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ISubjectsClassesTeachersService subjectsClassesTeachersService;
 
         public ScheduleSubjectsClassesController(
             IScheduleSubjectsClassesService scheduleSubjectsClassesService,
             ISubjectsClassesService subjectsClassesService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ISubjectsClassesTeachersService subjectsClassesTeachersService)
         {
             this.scheduleSubjectsClassesService = scheduleSubjectsClassesService;
             this.subjectsClassesService = subjectsClassesService;
             this.userManager = userManager;
+            this.subjectsClassesTeachersService = subjectsClassesTeachersService;
         }
 
         [Authorize(Roles = "Administrator,Principal")]
@@ -46,7 +50,10 @@
             var viewModel = new ScheduleSubjectsClassesViewModel
             {
                 Schedule = this.scheduleSubjectsClassesService.GetAllBySubjectClassId<ScheduleSubjectClassViewModel>(id),
+                Teachers = this.subjectsClassesTeachersService.GetAllBySubjectClassId<TeacherScheduleSubjectClass>(id),
             };
+
+            this.ViewBag.SubjectClassId = id;
 
             return this.View(viewModel);
         }
