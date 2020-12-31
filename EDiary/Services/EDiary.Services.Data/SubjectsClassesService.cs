@@ -57,6 +57,13 @@
             return subjectClasses.To<T>().ToList();
         }
 
+        public List<SubjectClass> GetAllBySubjectId(int subjectId)
+        {
+            var subjectsClasses = this.subjectsClassesRepository.All().Where(x => x.SubjectId == subjectId);
+
+            return subjectsClasses.ToList();
+        }
+
         public SubjectClass GetById(int id)
         {
             var subjectClass = this.subjectsClassesRepository.All().FirstOrDefault(x => x.Id == id);

@@ -17,5 +17,7 @@
         Task Remove(int id);
 
         IEnumerable<T> GetAllByClasses<T>(int schoolId, Class @class, TypeOfClass typeOfClass);
+
+        List<SubjectClass> GetAllBySubjectId(int subjectId);
     }
 }

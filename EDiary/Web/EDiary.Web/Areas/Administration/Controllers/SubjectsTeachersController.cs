@@ -20,19 +20,25 @@
         private readonly IUsersService usersService;
         private readonly ISchoolsService schoolsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ISubjectsClassesService subjectsClassesService;
+        private readonly ISubjectsClassesTeachersService subjectsClassesTeachersService;
 
         public SubjectsTeachersController(
             ISubjectsTeachersService subjectsTeachersService,
             ISubjectsService subjectsService,
             IUsersService usersService,
             ISchoolsService schoolsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ISubjectsClassesService subjectsClassesService,
+            ISubjectsClassesTeachersService subjectsClassesTeachersService)
         {
             this.subjectsTeachersService = subjectsTeachersService;
             this.subjectsService = subjectsService;
             this.usersService = usersService;
             this.schoolsService = schoolsService;
             this.userManager = userManager;
+            this.subjectsClassesService = subjectsClassesService;
+            this.subjectsClassesTeachersService = subjectsClassesTeachersService;
         }
 
         public async Task<IActionResult> AddSubjectTeacher(int subjectId, string teacherId)
@@ -56,17 +62,7 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            var roles = await this.userManager.GetRolesAsync(user);
-            var isTeacher = false;
-
-            foreach (var role in roles)
-            {
-                if (role == GlobalConstants.TeacherRoleName)
-                {
-                    isTeacher = true;
-                    break;
-                }
-            }
+            var isTeacher = await this.userManager.IsInRoleAsync(user, GlobalConstants.TeacherRoleName);
 
             if (!isTeacher)
             {
@@ -114,19 +110,19 @@
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            var user = await this.userManager.FindByIdAsync(teacherId);
+            var teacher = await this.userManager.FindByIdAsync(teacherId);
 
-            if (user == null)
+            if (teacher == null)
             {
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            if (subject.SchoolId != user.SchoolId)
+            if (subject.SchoolId != teacher.SchoolId)
             {
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty });
             }
 
-            var isTeacher = await this.userManager.IsInRoleAsync(user, GlobalConstants.TeacherRoleName);
+            var isTeacher = await this.userManager.IsInRoleAsync(teacher, GlobalConstants.TeacherRoleName);
 
             if (!isTeacher)
             {
@@ -140,6 +136,17 @@
             }
 
             await this.subjectsTeachersService.DeleteAsync(subjectId, teacherId);
+
+            var subjectClasses = this.subjectsClassesService.GetAllBySubjectId(subjectId);
+
+            foreach (var subjectClass in subjectClasses)
+            {
+                if (this.subjectsClassesTeachersService.Exist(subjectClass.Id, teacher.Id))
+                {
+                    await this.subjectsClassesTeachersService.DeleteAsync(subjectClass.Id, teacher.Id);
+                }
+            }
+
             return this.RedirectToAction("All", "Subjects", new { id = subject.SchoolId, area = string.Empty });
         }
     }
