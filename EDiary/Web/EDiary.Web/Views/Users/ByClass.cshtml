@@ -24,9 +24,9 @@
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col"></th>
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
+                            <th scope="col">Change Class</th>
                             <th scope="col">Edit</th>
                         }
                     </tr>
@@ -34,17 +34,17 @@
                 <tbody>
                     @foreach (var student in Model.Students)
                     {
-                        <tr>
-                            <th scope="row">@student.UniqueCitizenshipNumber</th>
-                            <td>@student.FirstName</td>
-                            <td>@student.LastName</td>
-                            <td>@student.Email</td>
-                            <td>Details</td>
-                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                            {
-                                <td><a asp-area="Administration" asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Edit</a></td>
-                            }
-                        </tr>
+                    <tr>
+                        <th scope="row">@student.UniqueCitizenshipNumber</th>
+                        <td>@student.FirstName</td>
+                        <td>@student.LastName</td>
+                        <td>@student.Email</td>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <td><a asp-area="Administration" asp-controller="Users" asp-action="ChangeClass" asp-route-id="@student.Id">Change</a></td>
+                            <td><a asp-area="Administration" asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Edit</a></td>
+                        }
+                    </tr>
                     }
                 </tbody>
             </table>

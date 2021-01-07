@@ -209,7 +209,9 @@
 
             await this.usersService.ChangeClassAsync(input.Class, input.TypeOfClass, id);
 
-            return this.Redirect("/");
+            var user = this.usersService.GetUserById(id);
+
+            return this.RedirectToAction("Search", "Users", new { area = string.Empty, id = user.SchoolId });
         }
 
         [AcceptVerbs("GET", "POST")]
