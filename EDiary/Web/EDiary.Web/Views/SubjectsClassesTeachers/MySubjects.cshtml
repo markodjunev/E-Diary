@@ -15,8 +15,10 @@
                 <h5 class="card-title">@subjectClass.SubjectClassSubjectName</h5>
                 <h6 class="card-subtitle mb-2 text-muted">@(subjectClass.TeacherFirstName + ' ' + subjectClass.TeacherLastName)</h6>
                 <p class="card-text">Class: @subjectClass.SubjectClassClass @subjectClass.SubjectClassTypeOfClass</p>
-                <a href="#" class="card-link">Schedule</a>
+                <a class="card-link"
+                   asp-area="" asp-controller="ScheduleSubjectsClasses" asp-action="TeacherSchedule" asp-route-id="@subjectClass.SubjectClassId">Schedule</a>
                 <a href="#" class="card-link">Lessons</a>
+                <a href="#" class="card-link">Students</a>
             </div>
         </div>
     }

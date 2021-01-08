@@ -7,6 +7,7 @@
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Common.ScheduleSubjectsClasses.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
+    using EDiary.Web.ViewModels.Teachers.ScheduleSubjectsClasses.OutputViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,33 @@
             };
 
             this.ViewBag.SubjectClassId = id;
+
+            return this.View(viewModel);
+        }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> TeacherSchedule(int id)
+        {
+            var subjectClass = this.subjectsClassesService.GetById(id);
+
+            if (subjectClass == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var teacher = await this.userManager.GetUserAsync(this.User);
+
+            var exist = this.subjectsClassesTeachersService.Exist(id, teacher.Id);
+
+            if (!exist)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var viewModel = new AllTeacherScheduleSubjectClassViewModel
+            {
+                Schedule = this.scheduleSubjectsClassesService.GetAllBySubjectClassId<TeacherScheduleSubjectClassViewModel>(id),
+            };
 
             return this.View(viewModel);
         }

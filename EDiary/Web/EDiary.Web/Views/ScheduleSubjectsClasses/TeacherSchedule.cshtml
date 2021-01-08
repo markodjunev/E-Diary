@@ -1,0 +1,43 @@
+﻿@model EDiary.Web.ViewModels.Teachers.ScheduleSubjectsClasses.OutputViewModels.AllTeacherScheduleSubjectClassViewModel
+@{
+    ViewData["Title"] = "Teacher schedule";
+}
+
+<h2 class="text-center">Schedule</h2>
+<hr />
+
+@if (Model.Schedule.Count() == 0)
+{
+    <h1 class="text-center font-weight-bold">Sorry the is no schedule for this class</h1>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">DayOfWeek</th>
+                        <th scope="col">StartAt</th>
+                        <th scope="col">FinishAt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var schedule in Model.Schedule)
+                    {
+                        <tr>
+                            <th scope="row"></th>
+                            <td>@schedule.DayOfWeek</td>
+                            <td>@schedule.StartAt.ToString("hh:mm tt")</td>
+                            <td>@schedule.FinishAt.ToString("hh:mm tt")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
