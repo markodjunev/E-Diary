@@ -53,6 +53,14 @@
             return subjectClassTeachers.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllByTeacherId<T>(string teacherId)
+        {
+            IQueryable<SubjectClassTeacher> subjectClassTeachers = this.subjectsClassesTeachersRepository.All()
+                .Where(x => x.TeacherId == teacherId);
+
+            return subjectClassTeachers.To<T>().ToList();
+        }
+
         public SubjectClassTeacher GetById(int id)
         {
             var subjectClassTeacher = this.subjectsClassesTeachersRepository.All().FirstOrDefault(x => x.Id == id);

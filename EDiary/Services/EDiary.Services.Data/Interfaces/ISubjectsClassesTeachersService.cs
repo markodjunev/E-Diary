@@ -16,5 +16,7 @@
         bool Exist(int subjectClassId, string teacherId);
 
         IEnumerable<T> GetAllBySubjectClassId<T>(int subjectClassId);
+
+        IEnumerable<T> GetAllByTeacherId<T>(string teacherId);
     }
 }

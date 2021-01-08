@@ -1,0 +1,23 @@
+﻿@model EDiary.Web.ViewModels.Teachers.SubjectsClassesTeachers.OutputViewModels.AllSubjectsClassesTeachersViewModel
+@{
+    ViewData["Titlt"] = "My subjects";
+}
+
+<h2 class="text-center">My subjects</h2>
+
+<hr />
+
+<div class="row">
+    @foreach (var subjectClass in Model.SubjectClasses)
+    {
+        <div class="card mr-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@subjectClass.SubjectClassSubjectName</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@(subjectClass.TeacherFirstName + ' ' + subjectClass.TeacherLastName)</h6>
+                <p class="card-text">Class: @subjectClass.SubjectClassClass @subjectClass.SubjectClassTypeOfClass</p>
+                <a href="#" class="card-link">Schedule</a>
+                <a href="#" class="card-link">Lessons</a>
+            </div>
+        </div>
+    }
+</div>

@@ -2,8 +2,10 @@
 @using EDiary.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     this.ViewData["Title"] = "Home Page";
+    var user = await this.UserManager.GetUserAsync(this.User);
 }
 
 <div class="text-center">
@@ -36,7 +38,8 @@
                     }
                     else if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
                     {
-                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                        <a class="btn btn-primary btn-lg" role="button"
+                           asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@user.SchoolId">My school</a>
                     }
                     else if (this.User.IsInRole(GlobalConstants.ParentRoleName))
                     {
