@@ -38,6 +38,10 @@
 
         public DbSet<ScheduleSubjectClass> ScheduleSubjectsClasses { get; set; }
 
+        public DbSet<Lesson> Lessons { get; set; }
+
+        public DbSet<Attendance> Attendances { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
