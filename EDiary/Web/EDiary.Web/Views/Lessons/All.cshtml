@@ -1,0 +1,32 @@
+﻿@model EDiary.Web.ViewModels.Teachers.Lessons.OutputViewModels.AllTeacherLessonsViewModel
+@{ 
+    ViewData["Title"] = "Lessons";
+    var counter = 0;
+}
+
+    <div class="d-flex justify-content-around">
+        <h2 class="text-center">Lessons of @this.ViewBag.Details</h2>
+        <a class="btn btn-outline-primary"
+           asp-area="" asp-controller="Lessons" asp-action="Create" asp-route-id="@this.ViewBag.SubjectClassId">Add lesson</a>
+    </div>
+<hr />
+
+<div class="row">
+    @foreach (var lesson in Model.Lessons)
+    {
+        <div class="card mr-2">
+            <div class="card-header">Lesson @(++counter)</div>
+            <div class="card-body">
+                <h5 class="card-title">@lesson.Name</h5>
+                <p class="card-text">
+                    Start on: @lesson.StartAt.ToString("MM/dd/yyyy HH:mm:ss")
+                </p>
+                <p class="card-text">
+                    Finish on: @lesson.FinishAt.ToString("MM/dd/yyyy HH:mm:ss")
+                </p>
+                <a class="btn btn-primary"
+                   asp-area="" asp-controller="Lessons" asp-action="Details" asp-route-id="@lesson.Id">Details</a>
+            </div>
+        </div>
+    }
+</div>

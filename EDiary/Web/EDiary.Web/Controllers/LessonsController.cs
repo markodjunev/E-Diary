@@ -9,6 +9,7 @@
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Teachers.Lessons.InputModels;
+    using EDiary.Web.ViewModels.Teachers.Lessons.OutputViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -70,7 +71,37 @@
             }
 
             await this.lessonsService.CreateAsync(input.Name, input.StartAt, input.FinishAt, id);
-            return this.RedirectToAction("MySubjects", "SubjectsClassesTeachers", new { area = string.Empty });
+            return this.RedirectToAction("All", "Lessons", new { area = string.Empty, id = id });
+        }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> All(int id)
+        {
+            var subjectClass = this.subjectsClassesService.GetById(id);
+
+            if (subjectClass == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var teacher = await this.userManager.GetUserAsync(this.User);
+
+            var exist = this.subjectsClassesTeachersService.Exist(id, teacher.Id);
+
+            if (!exist)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var subjectName = this.subjectsService.GetSubject(subjectClass.SubjectId).Name;
+            this.ViewBag.Details = $"{subjectName} in {subjectClass.Class} {subjectClass.TypeOfClass}";
+            this.ViewBag.SubjectClassId = id;
+            var viewModel = new AllTeacherLessonsViewModel
+            {
+                Lessons = this.lessonsService.GetAllBySubjectClassId<TeacherLessonViewModel>(id),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

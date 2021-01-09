@@ -1,11 +1,14 @@
 ﻿namespace EDiary.Services.Data
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class LessonsService : ILessonsService
     {
@@ -28,6 +31,13 @@
 
             await this.lessonsRepository.AddAsync(lesson);
             await this.lessonsRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAllBySubjectClassId<T>(int subjectClassId)
+        {
+            IQueryable<Lesson> lessons = this.lessonsRepository.All().Where(x => x.SubjectClassId == subjectClassId);
+
+            return lessons.To<T>().ToList();
         }
     }
 }

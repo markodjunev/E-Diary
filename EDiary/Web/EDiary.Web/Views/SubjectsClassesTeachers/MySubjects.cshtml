@@ -17,7 +17,8 @@
                 <p class="card-text">Class: @subjectClass.SubjectClassClass @subjectClass.SubjectClassTypeOfClass</p>
                 <a class="card-link"
                    asp-area="" asp-controller="ScheduleSubjectsClasses" asp-action="TeacherSchedule" asp-route-id="@subjectClass.SubjectClassId">Schedule</a>
-                <a href="#" class="card-link">Lessons</a>
+                <a class="card-link"
+                   asp-area="" asp-controller="Lessons" asp-action="All" asp-route-id="@subjectClass.SubjectClassId">Lessons</a>
                 <a href="#" class="card-link">Students</a>
             </div>
         </div>
