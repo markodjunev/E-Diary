@@ -1,0 +1,40 @@
+﻿@model EDiary.Web.ViewModels.Teachers.Lessons.OutputViewModels.AllTeacherLessonStudentDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center">Add attendance of students</h1>
+
+@if (Model.Students.Count() == 0)
+{
+    <h1>There are no students yet!</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Students</caption>
+            <thead>
+                <tr>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Attendance</th>
+                    <th scope="col">Absence</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.Students)
+                {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@student.Email</td>
+                    <td><a asp-area="" asp-controller="Attendances" asp-action="Attend" asp-route-id="@this.ViewBag.LessonId" asp-route-studentId="@student.Id">Add Attendance</a></td>
+                    <td><a asp-area="" asp-controller="Attendances" asp-action="Absent" asp-route-id="@this.ViewBag.LessonId" asp-route-studentId="@student.Id">Add Absence</a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

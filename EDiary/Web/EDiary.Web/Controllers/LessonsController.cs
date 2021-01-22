@@ -21,19 +21,22 @@
         private readonly ISubjectsClassesTeachersService subjectsClassesTeachersService;
         private readonly ILessonsService lessonsService;
         private readonly ISubjectsService subjectsService;
+        private readonly IUsersService usersService;
 
         public LessonsController(
             ISubjectsClassesService subjectsClassesService,
             UserManager<ApplicationUser> userManager,
             ISubjectsClassesTeachersService subjectsClassesTeachersService,
             ILessonsService lessonsService,
-            ISubjectsService subjectsService)
+            ISubjectsService subjectsService,
+            IUsersService usersService)
         {
             this.subjectsClassesService = subjectsClassesService;
             this.userManager = userManager;
             this.subjectsClassesTeachersService = subjectsClassesTeachersService;
             this.lessonsService = lessonsService;
             this.subjectsService = subjectsService;
+            this.usersService = usersService;
         }
 
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
@@ -99,6 +102,37 @@
             var viewModel = new AllTeacherLessonsViewModel
             {
                 Lessons = this.lessonsService.GetAllBySubjectClassId<TeacherLessonViewModel>(id),
+            };
+
+            return this.View(viewModel);
+        }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> Details(int id)
+        {
+            var lesson = this.lessonsService.GetLesson(id);
+
+            if (lesson == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            this.ViewBag.LessonId = id;
+
+            var teacher = await this.userManager.GetUserAsync(this.User);
+
+            var exist = this.subjectsClassesTeachersService.Exist(lesson.SubjectClassId, teacher.Id);
+
+            if (!exist)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty });
+            }
+
+            var subjectClass = this.subjectsClassesService.GetById(lesson.SubjectClassId);
+
+            var viewModel = new AllTeacherLessonStudentDetailsViewModel
+            {
+                Students = this.usersService.GetAllStudentsByClass<TeacherLessonStudentDetailsViewModel>(subjectClass.SchoolId, subjectClass.Class, subjectClass.TypeOfClass),
             };
 
             return this.View(viewModel);

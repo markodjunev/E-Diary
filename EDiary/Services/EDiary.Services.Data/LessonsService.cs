@@ -39,5 +39,12 @@
 
             return lessons.To<T>().ToList();
         }
+
+        public Lesson GetLesson(int id)
+        {
+            var lesson = this.lessonsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            return lesson;
+        }
     }
 }
