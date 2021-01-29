@@ -1,0 +1,45 @@
+﻿@model EDiary.Web.ViewModels.Administration.StudentsParents.OutputViewModels.AllChooseParentViewModel
+@{
+    ViewData["Title"] = "Choose parent";
+}
+
+<h2 class="text-center">
+    Choose parent to
+    <a class="card-link" asp-area="Administration" asp-controller="Users" asp-action="Details" asp-route-id="@this.ViewBag.StudentId">@this.ViewBag.Student</a>
+</h2>
+<hr />
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">UCN</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Email</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var parent in Model.Parents)
+                {
+                    <tr>
+                        <th scope="row">@parent.UniqueCitizenshipNumber</th>
+                        <td>@parent.FirstName</td>
+                        <td>@parent.LastName</td>
+                        <td>@parent.Email</td>
+                        <td>
+                            <a class="btn btn-primary"
+                               asp-area="Administration" asp-controller="StudentsParents" asp-action="AddStudentParent"
+                               asp-route-studentId="@this.ViewBag.StudentId" asp-route-parentId="@parent.Id">
+                                Add Parent
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

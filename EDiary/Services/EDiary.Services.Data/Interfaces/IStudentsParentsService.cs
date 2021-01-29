@@ -1,5 +1,6 @@
 ﻿namespace EDiary.Services.Data.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IStudentsParentsService
@@ -9,5 +10,7 @@
         Task CreateAsync(string studentId, string parentId);
 
         Task DeleteAsync(string studentId, string parentId);
+
+        IEnumerable<T> GetAllParentsByStudentId<T>(string studentId);
     }
 }

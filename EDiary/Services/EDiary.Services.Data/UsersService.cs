@@ -12,6 +12,7 @@
     using EDiary.Data.Models.Enums;
     using EDiary.Services.Data.Interfaces;
     using EDiary.Services.Mapping;
+    using EDiary.Web.ViewModels.Administration.StudentsParents.OutputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
@@ -85,6 +86,31 @@
             }
 
             return teachers;
+        }
+
+        public async Task<List<ChooseParentViewModel>> GetAllParents()
+        {
+            var users = this.usersRepository.All().Where(x => x.SchoolId == null);
+            var parents = new List<ChooseParentViewModel>();
+            foreach (var user in users)
+            {
+                var isParent = await this.userManager.IsInRoleAsync(user, GlobalConstants.ParentRoleName);
+                if (isParent == true)
+                {
+                    var model = new ChooseParentViewModel
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        UniqueCitizenshipNumber = user.UniqueCitizenshipNumber,
+                    };
+
+                    parents.Add(model);
+                }
+            }
+
+            return parents;
         }
 
         public IEnumerable<T> GetAllStudentsByClass<T>(int schoolId, Class @class, TypeOfClass typeOfClass)

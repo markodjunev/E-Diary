@@ -1,12 +1,14 @@
 ﻿namespace EDiary.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using EDiary.Data.Common.Repositories;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Services.Mapping;
 
     public class StudentsParentsService : IStudentsParentsService
     {
@@ -42,6 +44,14 @@
             var exist = this.studentsParentsRepository.All().Any(x => x.StudentId == studentId && x.ParentId == parentId);
 
             return exist;
+        }
+
+        public IEnumerable<T> GetAllParentsByStudentId<T>(string studentId)
+        {
+            IQueryable<StudentParent> parents = this.studentsParentsRepository.All()
+                .Where(x => x.StudentId == studentId);
+
+            return parents.To<T>().ToList();
         }
     }
 }

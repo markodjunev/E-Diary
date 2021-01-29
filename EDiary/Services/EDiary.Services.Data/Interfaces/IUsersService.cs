@@ -5,6 +5,7 @@
 
     using EDiary.Data.Models;
     using EDiary.Data.Models.Enums;
+    using EDiary.Web.ViewModels.Administration.StudentsParents.OutputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
     using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using EDiary.Web.ViewModels.Common.Users.OutputViewModels;
@@ -32,5 +33,7 @@
         Task ChangeClassAsync(Class newClass, TypeOfClass typeOfClass, string userId);
 
         IEnumerable<T> GetAllStudentsByClass<T>(int schoolId, Class @class, TypeOfClass typeOfClass);
+
+        Task<List<ChooseParentViewModel>> GetAllParents();
     }
 }

@@ -5,6 +5,7 @@
     using EDiary.Common;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Web.ViewModels.Administration.StudentsParents.OutputViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -45,7 +46,7 @@
 
             await this.studentsParentsService.CreateAsync(studentId, parentId);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Parents", new { id = studentId });
         }
 
         public async Task<IActionResult> RemoveStudentParent(string studentId, string parentId)
@@ -59,7 +60,60 @@
 
             await this.studentsParentsService.DeleteAsync(studentId, parentId);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Parents", new { id = studentId });
+        }
+
+        public async Task<IActionResult> Parents(string id)
+        {
+            var user = this.usersService.GetUserById(id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var isStudent = await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName);
+
+            if (!isStudent)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            this.ViewBag.Student = $"{user.FirstName} {user.LastName}";
+            this.ViewBag.StudentId = id;
+            var viewModel = new AllStudentParentsViewModel
+            {
+                Parents = this.studentsParentsService.GetAllParentsByStudentId<StudentParentsViewModel>(id),
+            };
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> ChooseParent(string id)
+        {
+            var user = this.usersService.GetUserById(id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var isStudent = await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName);
+
+            if (!isStudent)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            this.ViewBag.Student = $"{user.FirstName} {user.LastName}";
+            this.ViewBag.StudentId = id;
+
+            var viewModel = new AllChooseParentViewModel
+            {
+                Parents = await this.usersService.GetAllParents(),
+            };
+
+            return this.View(viewModel);
         }
     }
 }

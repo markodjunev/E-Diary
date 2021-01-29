@@ -1,0 +1,62 @@
+﻿@model EDiary.Web.ViewModels.Administration.StudentsParents.OutputViewModels.AllStudentParentsViewModel
+@{
+    ViewData["Title"] = "Parents";
+}
+
+<h2 class="text-center">
+    <a class="card-link" asp-area="Administration" asp-controller="Users" asp-action="Details" asp-route-id="@this.ViewBag.StudentId">@this.ViewBag.Student</a>
+    's parents
+</h2>
+<hr />
+
+@if (Model.Parents.Count() == 0)
+{
+    <h3 class="text-center text-danger">Sorry but @this.ViewBag.Student doesn't have any parents in the system.</h3>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">UCN</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Email</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var parent in Model.Parents)
+                    {
+                        <tr>
+                            <th scope="row">@parent.ParentUniqueCitizenshipNumber</th>
+                            <td>@parent.ParentFirstName</td>
+                            <td>@parent.ParentLastName</td>
+                            <td>@parent.ParentEmail</td>
+                            <td>
+                                <a class="btn btn-danger"
+                                   asp-area="Administration" asp-controller="StudentsParents" asp-action="RemoveStudentParent"
+                                   asp-route-studentId="@this.ViewBag.StudentId" asp-route-parentId="@parent.ParentId">
+                                    Remove Parent
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+
+<hr />
+
+<div class="text-center">
+    <a class="btn btn-primary" asp-area="Administration" asp-controller="StudentsParents" asp-action="ChooseParent" asp-route-id="@this.ViewBag.StudentId">
+        Add parent
+    </a>
+</div>
