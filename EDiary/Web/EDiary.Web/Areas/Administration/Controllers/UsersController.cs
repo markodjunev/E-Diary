@@ -12,6 +12,7 @@
     using EDiary.Services.Data.Interfaces;
     using EDiary.Web.ViewModels.Administration.Roles.InputModels;
     using EDiary.Web.ViewModels.Administration.Users.InputViewModels;
+    using EDiary.Web.ViewModels.Administration.Users.OutputViewModels;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -212,6 +213,31 @@
             var user = this.usersService.GetUserById(id);
 
             return this.RedirectToAction("Search", "Users", new { area = string.Empty, id = user.SchoolId });
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = this.usersService.GetUserById(id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var isStudent = await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName);
+
+            var viewModel = new UserDetailsViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Birthday = user.Birthday ?? DateTime.UtcNow,
+                Email = user.Email,
+                UniqueCitizenshipNumber = user.UniqueCitizenshipNumber,
+                IsStudent = isStudent,
+            };
+
+            return this.View(viewModel);
         }
 
         [AcceptVerbs("GET", "POST")]

@@ -27,7 +27,7 @@
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <th scope="col">Change Class</th>
-                            <th scope="col">Edit</th>
+                            <th scope="col">Details</th>
                         }
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <td><a asp-area="Administration" asp-controller="Users" asp-action="ChangeClass" asp-route-id="@student.Id">Change</a></td>
-                            <td><a asp-area="Administration" asp-controller="Users" asp-action="Edit" asp-route-id="@student.Id">Edit</a></td>
+                            <td><a asp-area="Administration" asp-controller="Users" asp-action="Details" asp-route-id="@student.Id">Details</a></td>
                         }
                     </tr>
                     }

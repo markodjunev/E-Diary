@@ -1,0 +1,44 @@
+﻿@model EDiary.Web.ViewModels.Administration.Users.OutputViewModels.UserDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="d-flex justify-content-around">
+    <div>
+        <h2>User Details</h2>
+    </div>
+    <div>
+        <a class="btn btn-success" asp-area="Administration" asp-controller="Users" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h4>First name: @Model.FirstName</h4>
+                <h4 class="mt-5">Birthday: @Model.Birthday.ToString("MM/dd/yyyy")</h4>
+            </div>
+            <div>
+                <h4>Last name: @Model.LastName</h4>
+                <h4 class="mt-5">Email: @Model.Email</h4>
+            </div>
+        </div>
+        <h4 class="text-center mt-5">UCN: @Model.UniqueCitizenshipNumber</h4>
+    </div>
+</div>
+
+@if (Model.IsStudent)
+{
+    <hr />
+    <div class="text-center">
+    <a class="btn btn-primary" asp-area="Administration" asp-controller="Users" asp-action="Parents" asp-route-id="@Model.Id">
+        See parents
+    </a>
+    </div>
+}
