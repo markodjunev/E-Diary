@@ -38,7 +38,12 @@ else
                     <tr>
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
-                            <td>@teacher.Username</td>
+                            <td>
+                                <a class="card-link"
+                                   asp-area="Administration" asp-controller="Users" asp-action="Details" asp-route-id="@teacher.Id">
+                                    @teacher.Username
+                                </a>
+                            </td>
                         }
                         <td>@teacher.FirstName</td>
                         <td>@teacher.LastName</td>
