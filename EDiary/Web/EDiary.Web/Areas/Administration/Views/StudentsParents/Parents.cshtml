@@ -33,7 +33,12 @@ else
                     @foreach (var parent in Model.Parents)
                     {
                         <tr>
-                            <th scope="row">@parent.ParentUniqueCitizenshipNumber</th>
+                            <th scope="row">
+                                <a class="card-link"
+                                   asp-area="Administration" asp-controller="Users" asp-action="Details" asp-route-id="@parent.ParentId">
+                                    @parent.ParentUniqueCitizenshipNumber
+                                </a>
+                            </th>
                             <td>@parent.ParentFirstName</td>
                             <td>@parent.ParentLastName</td>
                             <td>@parent.ParentEmail</td>

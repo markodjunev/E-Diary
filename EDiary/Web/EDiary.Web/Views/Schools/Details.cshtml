@@ -38,6 +38,7 @@ else
                     {
                         <li class="list-group-item"><a asp-area="Administration" asp-controller="SubjectsClasses" asp-action="AddSubjectToClass" asp-route-id="@Model.Id">Add subject to class</a></li>
                         <li class="list-group-item"><a asp-area="Administration" asp-controller="Users" asp-action="Create" asp-route-id="@Model.Id">Add new user</a></li>
+                        <li class="list-group-item"><a asp-area="Administration" asp-controller="Users" asp-action="Principal" asp-route-id="@Model.Id">Principal</a></li>
                     }
                     @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
                     {

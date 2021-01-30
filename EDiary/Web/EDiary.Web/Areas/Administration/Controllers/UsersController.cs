@@ -240,6 +240,37 @@
             return this.View(viewModel);
         }
 
+        public async Task<IActionResult> Principal(int id)
+        {
+            var school = this.schoolsService.GetSchool(id);
+
+            if (school == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var principals = await this.userManager.GetUsersInRoleAsync(GlobalConstants.PrincipalRoleName);
+
+            var principal = principals.FirstOrDefault(x => x.SchoolId == id);
+
+            if (principal == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var viewModel = new PrincipalDetailsViewModel
+            {
+                Id = principal.Id,
+                FirstName = principal.FirstName,
+                LastName = principal.LastName,
+                Birthday = principal.Birthday ?? DateTime.UtcNow,
+                Email = principal.Email,
+                UniqueCitizenshipNumber = principal.UniqueCitizenshipNumber,
+            };
+
+            return this.View(viewModel);
+        }
+
         [AcceptVerbs("GET", "POST")]
         public IActionResult IsUniqueCitizenshipNumberUsed(string uniqueCitizenshipNumber)
         {
