@@ -19,7 +19,8 @@
                    asp-area="" asp-controller="ScheduleSubjectsClasses" asp-action="TeacherSchedule" asp-route-id="@subjectClass.SubjectClassId">Schedule</a>
                 <a class="card-link"
                    asp-area="" asp-controller="Lessons" asp-action="All" asp-route-id="@subjectClass.SubjectClassId">Lessons</a>
-                <a href="#" class="card-link">Students</a>
+                <a class="card-link"
+                   asp-area="" asp-controller="SubjectsClasses" asp-action="Students" asp-route-id="@subjectClass.SubjectClassId">Students</a>
             </div>
         </div>
     }

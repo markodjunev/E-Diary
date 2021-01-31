@@ -1,0 +1,56 @@
+﻿@model EDiary.Web.ViewModels.Teachers.SubjectsClasses.OutputViewModels.AllStudentsBySubjectClass
+@{
+    var counter = 0;
+}
+
+@if (Model.Students.Count() == 0)
+{
+    <h3 class="text-center text-danger">Sorry but there are no students in this class.</h3>
+}
+else
+{
+    <h3 class="text-center">
+        All students in @Model.SubjectClassInfo.Class @Model.SubjectClassInfo.TypeOfClass,
+        subject @Model.SubjectClassInfo.SubjectName in @Model.SubjectClassInfo.SchoolName
+    </h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Email</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <th scope="row">@(++counter)</th>
+                            <td>@student.FirstName</td>
+                            <td>@student.LastName</td>
+                            <td>@student.Email</td>
+                            <td>
+                                <a class="btn btn-primary"
+                                   asp-area="" asp-controller="Marks" asp-action="Create" asp-route-id="@Model.SubjectClassInfo.Id" asp-route-studentId="@student.Id">
+                                    Add mark
+                                </a>
+                                <a class="btn btn-success"
+                                   asp-area="" asp-controller="Marks" asp-action="All" asp-route-id="@student.Id">
+                                    All marks
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}

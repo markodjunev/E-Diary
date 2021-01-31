@@ -19,5 +19,7 @@
         IEnumerable<T> GetAllByClasses<T>(int schoolId, Class @class, TypeOfClass typeOfClass);
 
         List<SubjectClass> GetAllBySubjectId(int subjectId);
+
+        T GetInfo<T>(int id);
     }
 }

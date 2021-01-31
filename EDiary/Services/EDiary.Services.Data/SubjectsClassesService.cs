@@ -71,6 +71,13 @@
             return subjectClass;
         }
 
+        public T GetInfo<T>(int id)
+        {
+            var subjectClass = this.subjectsClassesRepository.All().Where(p => p.Id == id).To<T>().FirstOrDefault();
+
+            return subjectClass;
+        }
+
         public async Task Remove(int id)
         {
             var subjectClass = this.GetById(id);

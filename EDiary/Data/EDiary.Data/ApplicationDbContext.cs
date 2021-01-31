@@ -42,6 +42,8 @@
 
         public DbSet<Attendance> Attendances { get; set; }
 
+        public DbSet<Mark> Marks { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
