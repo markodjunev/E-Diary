@@ -43,7 +43,7 @@ else
                                     Add mark
                                 </a>
                                 <a class="btn btn-success"
-                                   asp-area="" asp-controller="Marks" asp-action="All" asp-route-id="@student.Id">
+                                   asp-area="" asp-controller="Marks" asp-action="All" asp-route-id="@Model.SubjectClassInfo.Id" asp-route-studentId="@student.Id">
                                     All marks
                                 </a>
                             </td>

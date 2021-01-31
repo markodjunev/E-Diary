@@ -61,7 +61,11 @@
 
             var isStudent = await this.userManager.IsInRoleAsync(student, GlobalConstants.StudentRoleName);
 
-            if (!isStudent)
+            if (
+                isStudent == false ||
+                student.Class != subjectClass.Class ||
+                student.TypeOfClass != subjectClass.TypeOfClass ||
+                student.SchoolId != subjectClass.SchoolId)
             {
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
             }
