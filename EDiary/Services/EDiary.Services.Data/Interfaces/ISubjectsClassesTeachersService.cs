@@ -18,5 +18,7 @@
         IEnumerable<T> GetAllBySubjectClassId<T>(int subjectClassId);
 
         IEnumerable<T> GetAllByTeacherId<T>(string teacherId);
+
+        SubjectClassTeacher GetBySubjectClassIdAndTeacherId(int subjectClassId, string teacherId);
     }
 }

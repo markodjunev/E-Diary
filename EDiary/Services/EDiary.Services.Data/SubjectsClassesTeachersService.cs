@@ -67,5 +67,13 @@
 
             return subjectClassTeacher;
         }
+
+        public SubjectClassTeacher GetBySubjectClassIdAndTeacherId(int subjectClassId, string teacherId)
+        {
+            var subjectClassTeacher = this.subjectsClassesTeachersRepository.All()
+                .FirstOrDefault(x => x.SubjectClassId == subjectClassId && x.TeacherId == teacherId);
+
+            return subjectClassTeacher;
+        }
     }
 }
