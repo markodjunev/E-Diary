@@ -32,6 +32,14 @@
             await this.marksRepository.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var mark = this.GetById(id);
+
+            this.marksRepository.Delete(mark);
+            await this.marksRepository.SaveChangesAsync();
+        }
+
         public async Task EditAsync(int markId, string nameOfExam, double score)
         {
             var mark = this.GetById(markId);

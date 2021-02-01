@@ -14,5 +14,7 @@
         Mark GetById(int id);
 
         Task EditAsync(int markId, string nameOfExam, double score);
+
+        Task DeleteAsync(int id);
     }
 }

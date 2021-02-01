@@ -178,5 +178,31 @@
 
             return this.RedirectToAction("All", "Marks", new { id = subjectClassTeacher.SubjectClassId, studentId = mark.StudentId });
         }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var mark = this.marksService.GetById(id);
+
+            if (mark == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var teacherId = this.subjectsClassesTeachersService.GetById(mark.SubjectClassTeacherId).TeacherId;
+            var teacher = await this.userManager.GetUserAsync(this.User);
+
+            if (teacherId != teacher.Id)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var studentId = mark.StudentId;
+            var subjectClassId = this.subjectsClassesTeachersService.GetById(mark.SubjectClassTeacherId).SubjectClassId;
+
+            await this.marksService.DeleteAsync(id);
+
+            return this.RedirectToAction("All", "Marks", new { id = subjectClassId, studentId = studentId });
+        }
     }
 }
