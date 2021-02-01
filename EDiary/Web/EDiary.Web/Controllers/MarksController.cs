@@ -134,5 +134,49 @@
 
             return this.View(viewModel);
         }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var mark = this.marksService.GetById(id);
+
+            if (mark == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var teacherId = this.subjectsClassesTeachersService.GetById(mark.SubjectClassTeacherId).TeacherId;
+            var teacher = await this.userManager.GetUserAsync(this.User);
+
+            if (teacherId != teacher.Id)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var editViewModel = new EditMarkInputModel
+            {
+                NameOfExam = mark.NameOfExam,
+                Score = mark.Score,
+            };
+
+            return this.View(editViewModel);
+        }
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditMarkInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.marksService.EditAsync(id, input.NameOfExam, input.Score);
+
+            var mark = this.marksService.GetById(id);
+            var subjectClassTeacher = this.subjectsClassesTeachersService.GetById(mark.SubjectClassTeacherId);
+
+            return this.RedirectToAction("All", "Marks", new { id = subjectClassTeacher.SubjectClassId, studentId = mark.StudentId });
+        }
     }
 }

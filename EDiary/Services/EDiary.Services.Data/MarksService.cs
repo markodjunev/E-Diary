@@ -32,12 +32,30 @@
             await this.marksRepository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(int markId, string nameOfExam, double score)
+        {
+            var mark = this.GetById(markId);
+
+            mark.NameOfExam = nameOfExam;
+            mark.Score = score;
+
+            this.marksRepository.Update(mark);
+            await this.marksRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<T> GetAllByStudentIdAndSubjectClassTeacherId<T>(string studentId, int subjectClassTeacherId)
         {
             IQueryable<Mark> marks = this.marksRepository.All()
                 .Where(x => x.StudentId == studentId && x.SubjectClassTeacherId == subjectClassTeacherId);
 
             return marks.To<T>().ToList();
+        }
+
+        public Mark GetById(int id)
+        {
+            var mark = this.marksRepository.All().FirstOrDefault(x => x.Id == id);
+
+            return mark;
         }
     }
 }
