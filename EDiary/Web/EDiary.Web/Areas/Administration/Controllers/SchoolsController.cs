@@ -41,7 +41,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(SchoolCreateInputModel input)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            // var user = await this.userManager.GetUserAsync(this.User);
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);

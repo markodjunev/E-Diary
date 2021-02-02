@@ -177,9 +177,15 @@
         public async Task<IActionResult> ChangeClass(string id)
         {
             var user = this.usersService.GetUserById(id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
             var isStudent = await this.userManager.IsInRoleAsync(user, GlobalConstants.StudentRoleName);
 
-            if (user == null || isStudent == false)
+            if (isStudent == false)
             {
                 return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
             }
