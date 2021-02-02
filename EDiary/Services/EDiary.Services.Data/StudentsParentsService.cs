@@ -53,5 +53,13 @@
 
             return parents.To<T>().ToList();
         }
+
+        public IEnumerable<T> GetAllStudentsByParentId<T>(string parentId)
+        {
+            IQueryable<StudentParent> students = this.studentsParentsRepository.All()
+                .Where(x => x.ParentId == parentId);
+
+            return students.To<T>().ToList();
+        }
     }
 }

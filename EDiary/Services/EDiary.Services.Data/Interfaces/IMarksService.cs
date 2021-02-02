@@ -16,5 +16,7 @@
         Task EditAsync(int markId, string nameOfExam, double score);
 
         Task DeleteAsync(int id);
+
+        IEnumerable<T> GetAllLatestMarksByStudentId<T>(string studentId);
     }
 }

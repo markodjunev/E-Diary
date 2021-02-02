@@ -12,5 +12,7 @@
         Task DeleteAsync(string studentId, string parentId);
 
         IEnumerable<T> GetAllParentsByStudentId<T>(string studentId);
+
+        IEnumerable<T> GetAllStudentsByParentId<T>(string parentId);
     }
 }

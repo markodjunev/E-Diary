@@ -1,0 +1,38 @@
+﻿@model EDiary.Web.ViewModels.Parents.StudentsParents.OutputViewModels.AllStudentsByParentIdViewModel
+@{
+    ViewData["Title"] = "My kids";
+}
+
+<h2 class="text-center">My kids</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    @foreach (var student in Model.Students)
+    {
+        <div class="card mr-3" style="width: 18rem;">
+            <div class="card-header">
+                @student.StudentFirstName @student.StudentLastName
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Class: @student.StudentClass</li>
+                <li class="list-group-item">TypeOfClass: @student.StudentTypeOfClass</li>
+                <li class="list-group-item">Born on: @student.StudentBirthday.ToString("MM/dd/yyyy")</li>
+                <li class="list-group-item">
+                    <a class="card-link"
+                       asp-area="" asp-controller="Marks" asp-action="LatestMarks" asp-route-id="@student.StudentId">
+                        Check latest marks
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="card-link"
+                       asp-area="" asp-controller="Attendances" asp-action="LatestAttendaces" asp-route-id="@student.StudentId">
+                        Check attendances
+                    </a>
+                </li>
+            </ul>
+        </div>
+    }
+</div>

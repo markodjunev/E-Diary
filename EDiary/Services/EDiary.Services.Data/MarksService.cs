@@ -59,6 +59,15 @@
             return marks.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllLatestMarksByStudentId<T>(string studentId)
+        {
+            IQueryable<Mark> marks = this.marksRepository.All()
+                .Where(x => x.StudentId == studentId)
+                .OrderByDescending(x => x.CreatedOn);
+
+            return marks.To<T>().ToList();
+        }
+
         public Mark GetById(int id)
         {
             var mark = this.marksRepository.All().FirstOrDefault(x => x.Id == id);

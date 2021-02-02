@@ -1,0 +1,39 @@
+﻿@model EDiary.Web.ViewModels.Parents.Marks.OutputViewModels.AllStudentsLatestMarks
+@{
+    ViewData["Title"] = "Latest marks";
+}
+
+<h2 class="text-center">Latest marks</h2>
+<hr />
+
+@if (Model.Marks.Count() == 0)
+{
+    <h2 class="text-danger">Sorry but the student doesn't have any marks yet.</h2>
+}
+else
+{
+    <table class="table">
+        <caption>List of marks</caption>
+        <thead>
+            <tr>
+                <th scope="col">Student names</th>
+                <th scope="col">Name of Exam</th>
+                <th scope="col">Subject name</th>
+                <th scope="col">Score</th>
+                <th scope="col">Teacher names</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mark in Model.Marks)
+            {
+                <tr>
+                    <td>@mark.StudentFirstName @mark.StudentLastName</td>
+                    <td>@mark.NameOfExam</td>
+                    <td>@mark.SubjectClassTeacherSubjectClassSubjectName</td>
+                    <td>@mark.Score</td>
+                    <td>@mark.SubjectClassTeacherTeacherFirstName @mark.SubjectClassTeacherTeacherLastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

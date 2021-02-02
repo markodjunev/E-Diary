@@ -43,11 +43,13 @@
                     }
                     else if (this.User.IsInRole(GlobalConstants.ParentRoleName))
                     {
-                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                        <a class="btn btn-primary btn-lg" role="button"
+                           asp-area="" asp-controller="StudentsParents" asp-action="MyKids">My kids</a>
                     }
                     else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
                     {
-                        <a class="btn btn-primary btn-lg" href="#" role="button">See all subjects info.</a>
+                        <a class="btn btn-primary btn-lg" role="button"
+                           asp-area="" asp-controller="Schools" asp-action="Details" asp-route-id="@user.SchoolId">My school</a>
                     }
                 </div>
             </div>

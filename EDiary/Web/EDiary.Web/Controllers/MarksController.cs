@@ -5,6 +5,7 @@
     using EDiary.Common;
     using EDiary.Data.Models;
     using EDiary.Services.Data.Interfaces;
+    using EDiary.Web.ViewModels.Parents.Marks.OutputViewModels;
     using EDiary.Web.ViewModels.Teachers.Marks.InputModels;
     using EDiary.Web.ViewModels.Teachers.Marks.OutputViewModels;
     using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@
         private readonly IUsersService usersService;
         private readonly ISubjectsService subjectsService;
         private readonly IMarksService marksService;
+        private readonly IStudentsParentsService studentsParentsService;
 
         public MarksController(
             ISubjectsClassesService subjectsClassesService,
@@ -26,7 +28,8 @@
             UserManager<ApplicationUser> userManager,
             IUsersService usersService,
             ISubjectsService subjectsService,
-            IMarksService marksService)
+            IMarksService marksService,
+            IStudentsParentsService studentsParentsService)
         {
             this.subjectsClassesService = subjectsClassesService;
             this.subjectsClassesTeachersService = subjectsClassesTeachersService;
@@ -34,6 +37,7 @@
             this.usersService = usersService;
             this.subjectsService = subjectsService;
             this.marksService = marksService;
+            this.studentsParentsService = studentsParentsService;
         }
 
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
@@ -203,6 +207,39 @@
             await this.marksService.DeleteAsync(id);
 
             return this.RedirectToAction("All", "Marks", new { id = subjectClassId, studentId = studentId });
+        }
+
+        [Authorize(Roles = GlobalConstants.ParentRoleName)]
+        public async Task<IActionResult> LatestMarks(string id)
+        {
+            var student = this.usersService.GetUserById(id);
+
+            if (student == null)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var isStudent = await this.userManager.IsInRoleAsync(student, GlobalConstants.StudentRoleName);
+
+            if (!isStudent)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var parent = await this.userManager.GetUserAsync(this.User);
+            var exist = this.studentsParentsService.Exist(id, parent.Id);
+
+            if (!exist)
+            {
+                return this.RedirectToAction("Error", "Home", new { area = string.Empty, });
+            }
+
+            var viewModel = new AllStudentsLatestMarks
+            {
+                Marks = this.marksService.GetAllLatestMarksByStudentId<StudentLatestMarks>(id),
+            };
+
+            return this.View(viewModel);
         }
     }
 }
