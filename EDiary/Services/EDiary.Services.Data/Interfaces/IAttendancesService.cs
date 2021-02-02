@@ -12,5 +12,7 @@
         Task CreateAsync(int lessonId, string studentId, bool isAttended);
 
         IEnumerable<T> GetAllStudentsByLessonId<T>(int lessonId);
+
+        IEnumerable<T> GetAllLatestAttendancesByStudentId<T>(string studentId);
     }
 }

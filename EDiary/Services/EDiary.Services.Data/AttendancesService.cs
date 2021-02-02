@@ -39,6 +39,15 @@
             return exist;
         }
 
+        public IEnumerable<T> GetAllLatestAttendancesByStudentId<T>(string studentId)
+        {
+            IQueryable<Attendance> attendances = this.attendancesRepository.All()
+                .Where(x => x.StudentId == studentId)
+                .OrderByDescending(x => x.CreatedOn);
+
+            return attendances.To<T>().ToList();
+        }
+
         public IEnumerable<T> GetAllStudentsByLessonId<T>(int lessonId)
         {
             IQueryable<Attendance> attendances = this.attendancesRepository.All()
